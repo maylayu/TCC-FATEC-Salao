@@ -18,9 +18,9 @@ public class ModuloConexao {
         //a linha abaixo chama o driver importado
         String driver = "com.mysql.cj.jdbc.Driver";
         //armazenando informações referentes ao banco
-        String url = "jdbc:mysql://localhost:3306/dbsalao";
-        String user = "root";
-        String password = "mayla";
+        String url = "jdbc:mysql://sql10.freemysqlhosting.net:3306/sql10482558?zeroDateTimeBehavior=CONVERT_TO_NULL";
+        String user = "sql10482558";
+        String password = "rPYN9c9UgR";
         //Estabelecendo conexão com o banco
         try {
             Class.forName(driver);

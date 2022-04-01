@@ -28,7 +28,7 @@ public class TelaLogin extends javax.swing.JFrame {
     ResultSet rs = null;
     
     public void logar() {
-        String sql = "select * from USUARIOS where login=? and senha=?";
+        String sql = "select login, perfil from USUARIOS where login=? and senha=?";
         try {
             //as linhas abaixo preparam a consulta ao banco em função do
             //que foi digitado nas caixas de texto. O ? é substituido pelo conteudo das variaveis
@@ -41,7 +41,7 @@ public class TelaLogin extends javax.swing.JFrame {
             //se existir usuario e senha correspondente
             if (rs.next()) {
                 //abaixo obrtemos o conteúso do campo perfil
-                String perfil=rs.getString(5);
+                String perfil=rs.getString(2);
                 //abaixo, faz o tratamento do perfil usuario
                 if(perfil.equals("admin")){
                     TelaPrincipal principal = new TelaPrincipal();
@@ -49,7 +49,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.menRelSer.setEnabled(true);
                     TelaPrincipal.menCadUsu.setEnabled(true);
                      // As linhas abaixo substituem a Label Usuario(lblUsu) pelo nome do usuario ao inicializar
-                    TelaPrincipal.lblUsuario.setText(rs.getString(3));
+                    TelaPrincipal.lblUsuario.setText(rs.getString(1));
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
                     //abaixo, quando fechar, desloga
                     this.dispose();
