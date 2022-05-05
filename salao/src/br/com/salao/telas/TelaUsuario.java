@@ -7,6 +7,7 @@ package br.com.salao.telas;
 
 import java.sql.*;
 import br.com.salao.dal.ModuloConexao;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,32 +15,32 @@ import javax.swing.JOptionPane;
  * @author yukii
  */
 public class TelaUsuario extends javax.swing.JInternalFrame {
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+
     /**
      * Creates new form TelaUsuario
      */
-    
-    
     public TelaUsuario() {
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    
-    private void consultar(){
-        String sql = "select * from usuarios where cd_usuario=?";
-        try{
+
+    private void read() {
+        String sql = "select * from USUARIOS where cd_usuario=?";
+        try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUsuId.getText());
             rs = pst.executeQuery();
             if (rs.next()) {
-                txtUsuNome.setText(rs.getString(3));
-                txtUsuLogin.setText(rs.getString(2));
+                txtUsuNome.setText(rs.getString(2));
+                txtUsuLogin.setText(rs.getString(3));
                 txtUsuSenha.setText(rs.getString(4));
                 //combo box
                 cboUsuPerfil.setSelectedItem(rs.getString(5));
-                
+
                 //ifel + ctrl+space
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
@@ -48,13 +49,105 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 txtUsuLogin.setText(null);
                 txtUsuSenha.setText(null);
                 //combo box
-                cboUsuPerfil.setSelectedItem(null);
+                //cboUsuPerfil.setSelectedItem(null);
             }
-                    
-            
+
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null,e);
+    }
+
+    private void create() {
+        String sql = "INSERT INTO USUARIOS(cd_usuario, nm_usuario, login, senha, perfil)VALUES (?, ?, ?, ?, ?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtUsuId.getText());
+            pst.setString(2, txtUsuNome.getText());
+            pst.setString(3, txtUsuLogin.getText());
+            pst.setString(4, txtUsuSenha.getText());
+            pst.setString(5, cboUsuPerfil.getSelectedItem().toString());
+
+            //validando campos obrigatórios
+            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty())
+                    || (txtUsuSenha.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+
+            } else {
+                //abaixo irá atualizar a tabela com os dados do formulario
+                int adicionado = pst.executeUpdate();
+                //Esse confirma se alguma coisa foi inserida mesmo
+                if (adicionado > 0) {
+                    //
+                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsuLogin.setText(null);
+                    txtUsuSenha.setText(null);
+                    //cboUsuPerfil.setSelectedItem(null);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+
+    private void update() {
+        String sql = "UPDATE USUARIOS SET nm_usuario=?, login=?, senha=?, perfil=? WHERE cd_usuario=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtUsuNome.getText());
+            pst.setString(2, txtUsuLogin.getText());
+            pst.setString(3, txtUsuSenha.getText());
+            pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
+            pst.setString(5, txtUsuId.getText());
+
+            //validando campos obrigatórios
+            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty())
+                    || (txtUsuSenha.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+
+            } else {
+                //abaixo irá atualizar a tabela com os dados do formulario
+                int adicionado = pst.executeUpdate();
+                //Dessa vez confirma a alteração 
+                if (adicionado > 0) {
+                    //
+                    JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsuLogin.setText(null);
+                    txtUsuSenha.setText(null);
+                    //cboUsuPerfil.setSelectedItem(null);
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+    }
+
+    private void delete() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "DELETE FROM USUARIOS WHERE cd_usuario=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtUsuId.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Excluido com sucesso");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsuLogin.setText(null);
+                    txtUsuSenha.setText(null);
+
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
@@ -153,6 +246,8 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
         txtUsuId.setBackground(new java.awt.Color(204, 204, 255));
         txtUsuId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtUsuId.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtUsuId.setSelectionColor(new java.awt.Color(0, 0, 0));
         txtUsuId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsuIdActionPerformed(evt);
@@ -190,7 +285,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsuRead.setBackground(java.awt.Color.lightGray);
         btnUsuRead.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
         btnUsuRead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/read.png"))); // NOI18N
-        btnUsuRead.setToolTipText("Consultar");
+        btnUsuRead.setToolTipText("Consultar!");
         btnUsuRead.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 204), 3, true));
         btnUsuRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsuRead.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -220,7 +315,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsuUpdate.setBackground(java.awt.Color.lightGray);
         btnUsuUpdate.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
         btnUsuUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/update.png"))); // NOI18N
-        btnUsuUpdate.setToolTipText("Alterar");
+        btnUsuUpdate.setToolTipText("Alterar!");
         btnUsuUpdate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 204), 3, true));
         btnUsuUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsuUpdate.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -239,8 +334,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel6);
         jLabel6.setBounds(130, 180, 100, 40);
 
+        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel8.setText("Gerenciar Usuários do Sistema");
+        jLabel8.setToolTipText("");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
         jLabel8.setBounds(90, 10, 500, 70);
@@ -270,21 +367,23 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
     private void btnUsuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuDeleteActionPerformed
         // chamando o metodo logar
-        //logar();
+        delete();
 
     }//GEN-LAST:event_btnUsuDeleteActionPerformed
 
     private void btnUsuReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuReadActionPerformed
         // TODO add your handling code here:
-        consultar();
+        read();
     }//GEN-LAST:event_btnUsuReadActionPerformed
 
     private void btnUsuCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuCreateActionPerformed
         // TODO add your handling code here:
+        create();
     }//GEN-LAST:event_btnUsuCreateActionPerformed
 
     private void btnUsuUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuUpdateActionPerformed
         // TODO add your handling code here:
+        update();
     }//GEN-LAST:event_btnUsuUpdateActionPerformed
 
     private void cboUsuPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboUsuPerfilActionPerformed

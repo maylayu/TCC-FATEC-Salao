@@ -100,6 +100,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCadPro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         menCadPro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         menCadPro.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        menCadPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadProActionPerformed(evt);
+            }
+        });
 
         menCadSer.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         menCadSer.setForeground(new java.awt.Color(102, 0, 102));
@@ -109,7 +114,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCadSer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jLabel2.setFont(new java.awt.Font("BIZ UDPMincho Medium", 1, 12)); // NOI18N
-        jLabel2.setText("está logada!");
+        jLabel2.setText("está logado!");
 
         lblData.setFont(new java.awt.Font("BIZ UDPGothic", 1, 12)); // NOI18N
         lblData.setText("Data");
@@ -267,6 +272,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Desktop.add(tcliente);
     }//GEN-LAST:event_menCadCliActionPerformed
 
+    private void menCadProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadProActionPerformed
+        // TODO add your handling code here:
+        TelaFuncionario tfuncionario = new TelaFuncionario();
+        tfuncionario.setVisible(true);
+        Desktop.add(tfuncionario);
+    }//GEN-LAST:event_menCadProActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -304,6 +316,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new TelaSobre().setVisible(true);
             }
@@ -311,6 +324,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new TelaPrincipal().setVisible(true);
             }
