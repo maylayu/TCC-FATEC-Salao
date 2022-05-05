@@ -181,7 +181,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         txtCliDtnasc = new javax.swing.JTextField();
         btnUsuCreate = new javax.swing.JButton();
-        btnUsuRead = new javax.swing.JButton();
         btnUsuUpdate = new javax.swing.JButton();
         btnUsuDelete = new javax.swing.JButton();
         txtCliPesquisar = new javax.swing.JTextField();
@@ -291,21 +290,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().add(btnUsuCreate);
         btnUsuCreate.setBounds(180, 440, 70, 60);
 
-        btnUsuRead.setBackground(java.awt.Color.lightGray);
-        btnUsuRead.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
-        btnUsuRead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/read.png"))); // NOI18N
-        btnUsuRead.setToolTipText("Consultar");
-        btnUsuRead.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 204), 3, true));
-        btnUsuRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnUsuRead.setPreferredSize(new java.awt.Dimension(50, 50));
-        btnUsuRead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuReadActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnUsuRead);
-        btnUsuRead.setBounds(530, 230, 70, 60);
-
         btnUsuUpdate.setBackground(java.awt.Color.lightGray);
         btnUsuUpdate.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
         btnUsuUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/update.png"))); // NOI18N
@@ -403,11 +387,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         create();
     }//GEN-LAST:event_btnUsuCreateActionPerformed
 
-    private void btnUsuReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuReadActionPerformed
-        // TODO add your handling code here:
-        read();
-    }//GEN-LAST:event_btnUsuReadActionPerformed
-
     private void btnUsuUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuUpdateActionPerformed
         // TODO add your handling code here:
         update();
@@ -435,7 +414,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel btnPesquisar;
     private javax.swing.JButton btnUsuCreate;
     private javax.swing.JButton btnUsuDelete;
-    private javax.swing.JButton btnUsuRead;
     private javax.swing.JButton btnUsuUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;

@@ -70,7 +70,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
 
             //validando campos obrigatórios
             //txtCliId.getText().isEmpty())
-            if ((txtFunCpf.getText().isEmpty())||(txtFunNome.getText().isEmpty()) || (txtFunTel.getText().isEmpty())
+            if ((txtFunCpf.getText().isEmpty()) || (txtFunNome.getText().isEmpty()) || (txtFunTel.getText().isEmpty())
                     || (txtFunDtnasc.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
@@ -99,7 +99,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     private void update() {
         String sql = "UPDATE FUNCIONARIOS SET cd_cpf_funcionario=?, nm_funcionario=?, tel_funcionario=?, dt_nasc_func=? WHERE cd_funcionario=?";
         try {
-            
+
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtFunCpf.getText());
             pst.setString(2, txtFunNome.getText());
@@ -136,26 +136,38 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     }
 
     private void delete() {
-        int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
-        if (confirma == JOptionPane.YES_OPTION) {
-            String sql = "DELETE FROM FUNCIONARIOS WHERE cd_funcionario=?";
-            try {
-                pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtFunId.getText());
-                int apagado = pst.executeUpdate();
-                if (apagado > 0) {
-                    JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-                    txtFunId.setText(null);
-                    txtFunCpf.setText(null);
-                    txtFunNome.setText(null);
-                    txtFunTel.setText(null);
-                    txtFunDtnasc.setText(null);
+        String sql = "DELETE FROM FUNCIONARIOS WHERE cd_funcionario=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtFunId.getText());
+
+            if ((txtFunId.getText().isEmpty()) || (txtFunCpf.getText().isEmpty()) || (txtFunNome.getText().isEmpty()) || (txtFunTel.getText().isEmpty())
+                    || (txtFunDtnasc.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+
+            } else {
+                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+                if (confirma == JOptionPane.YES_OPTION) {
+                    int apagado = pst.executeUpdate();
+                    if (apagado > 0) {
+                        JOptionPane.showMessageDialog(null, "Excluido com sucesso");
+                        txtFunId.setText(null);
+                        txtFunCpf.setText(null);
+                        txtFunNome.setText(null);
+                        txtFunTel.setText(null);
+                        txtFunDtnasc.setText(null);
+
+                    }
+                } else {
 
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+
             }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
+
     }
 
     public void setar_campos() {
@@ -188,7 +200,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         btnUsuDelete = new javax.swing.JButton();
         btnUsuUpdate = new javax.swing.JButton();
         btnUsuCreate = new javax.swing.JButton();
-        btnUsuRead = new javax.swing.JButton();
         btnPesquisar = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -337,21 +348,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         getContentPane().add(btnUsuCreate);
         btnUsuCreate.setBounds(180, 440, 70, 60);
 
-        btnUsuRead.setBackground(java.awt.Color.lightGray);
-        btnUsuRead.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
-        btnUsuRead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/read.png"))); // NOI18N
-        btnUsuRead.setToolTipText("Consultar");
-        btnUsuRead.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 204), 3, true));
-        btnUsuRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnUsuRead.setPreferredSize(new java.awt.Dimension(50, 50));
-        btnUsuRead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuReadActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnUsuRead);
-        btnUsuRead.setBounds(540, 210, 70, 60);
-
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
         getContentPane().add(btnPesquisar);
         btnPesquisar.setBounds(490, 50, 40, 40);
@@ -453,11 +449,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         create();
     }//GEN-LAST:event_btnUsuCreateActionPerformed
 
-    private void btnUsuReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuReadActionPerformed
-        // TODO add your handling code here:
-        read();
-    }//GEN-LAST:event_btnUsuReadActionPerformed
-
     private void txtFunCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunCpfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFunCpfActionPerformed
@@ -467,7 +458,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel btnPesquisar;
     private javax.swing.JButton btnUsuCreate;
     private javax.swing.JButton btnUsuDelete;
-    private javax.swing.JButton btnUsuRead;
     private javax.swing.JButton btnUsuUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
