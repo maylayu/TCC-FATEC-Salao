@@ -10,6 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -211,7 +217,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Funcionarios");
         setMinimumSize(new java.awt.Dimension(128, 36));
         setNormalBounds(new java.awt.Rectangle(0, 0, 104, 0));

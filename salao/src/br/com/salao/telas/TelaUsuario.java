@@ -180,7 +180,6 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(51, 51, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Usuários");
         setMinimumSize(new java.awt.Dimension(735, 0));
         getContentPane().setLayout(null);
