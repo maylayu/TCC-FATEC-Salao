@@ -165,7 +165,6 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtUsuLogin = new javax.swing.JTextField();
-        txtUsuSenha = new javax.swing.JTextField();
         txtUsuNome = new javax.swing.JTextField();
         txtUsuId = new javax.swing.JTextField();
         cboUsuPerfil = new javax.swing.JComboBox<>();
@@ -175,6 +174,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsuUpdate = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        txtUsuSenha = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(51, 51, 255));
@@ -186,65 +186,64 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         getContentPane().setLayout(null);
 
         jLabel2.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel2.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Senha:");
         getContentPane().add(jLabel2);
         jLabel2.setBounds(130, 280, 100, 40);
 
         jLabel3.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel3.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Login:");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(140, 230, 80, 40);
 
         jLabel4.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel4.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Perfil:");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(130, 330, 90, 40);
 
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel5.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(130, 130, 100, 40);
 
         txtUsuLogin.setBackground(new java.awt.Color(204, 204, 255));
-        txtUsuLogin.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtUsuLogin.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtUsuLogin.setForeground(new java.awt.Color(51, 51, 51));
         txtUsuLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsuLoginActionPerformed(evt);
             }
         });
         getContentPane().add(txtUsuLogin);
-        txtUsuLogin.setBounds(250, 230, 260, 30);
-
-        txtUsuSenha.setBackground(new java.awt.Color(204, 204, 255));
-        txtUsuSenha.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
-        txtUsuSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuSenhaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtUsuSenha);
-        txtUsuSenha.setBounds(250, 280, 260, 30);
+        txtUsuLogin.setBounds(240, 240, 260, 30);
 
         txtUsuNome.setBackground(new java.awt.Color(204, 204, 255));
-        txtUsuNome.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtUsuNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtUsuNome.setForeground(new java.awt.Color(51, 51, 51));
         txtUsuNome.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtUsuNome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         txtUsuNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsuNomeActionPerformed(evt);
             }
         });
         getContentPane().add(txtUsuNome);
-        txtUsuNome.setBounds(250, 180, 260, 30);
+        txtUsuNome.setBounds(240, 190, 260, 30);
 
         txtUsuId.setBackground(new java.awt.Color(204, 204, 255));
+        txtUsuId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtUsuId.setForeground(new java.awt.Color(51, 51, 51));
         txtUsuId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtUsuId.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         txtUsuId.setSelectionColor(new java.awt.Color(0, 0, 0));
@@ -254,10 +253,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtUsuId);
-        txtUsuId.setBounds(250, 130, 260, 30);
+        txtUsuId.setBounds(240, 140, 260, 30);
 
         cboUsuPerfil.setBackground(new java.awt.Color(204, 204, 255));
-        cboUsuPerfil.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        cboUsuPerfil.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        cboUsuPerfil.setForeground(new java.awt.Color(51, 51, 51));
         cboUsuPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
         cboUsuPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,7 +265,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(cboUsuPerfil);
-        cboUsuPerfil.setBounds(250, 330, 260, 30);
+        cboUsuPerfil.setBounds(240, 340, 260, 30);
 
         btnUsuDelete.setBackground(java.awt.Color.lightGray);
         btnUsuDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -328,19 +328,27 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsuUpdate.setBounds(330, 400, 70, 60);
 
         jLabel6.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel6.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Nome:");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(130, 180, 100, 40);
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Gerenciar Usuários do Sistema");
         jLabel8.setToolTipText("");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(90, 10, 500, 70);
+        jLabel8.setBounds(140, 0, 500, 70);
+
+        txtUsuSenha.setBackground(new java.awt.Color(204, 204, 255));
+        txtUsuSenha.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtUsuSenha.setForeground(new java.awt.Color(51, 51, 51));
+        getContentPane().add(txtUsuSenha);
+        txtUsuSenha.setBounds(240, 290, 260, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -352,10 +360,6 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private void txtUsuLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuLoginActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuLoginActionPerformed
-
-    private void txtUsuSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuSenhaActionPerformed
 
     private void txtUsuNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuNomeActionPerformed
         // TODO add your handling code here:
@@ -407,6 +411,6 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtUsuId;
     private javax.swing.JTextField txtUsuLogin;
     private javax.swing.JTextField txtUsuNome;
-    private javax.swing.JTextField txtUsuSenha;
+    private javax.swing.JPasswordField txtUsuSenha;
     // End of variables declaration//GEN-END:variables
 }

@@ -199,6 +199,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().setLayout(null);
 
         txtCliId.setBackground(new java.awt.Color(204, 204, 255));
+        txtCliId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtCliId.setForeground(new java.awt.Color(51, 51, 51));
         txtCliId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtCliId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,17 +208,19 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliId);
-        txtCliId.setBounds(130, 300, 400, 20);
+        txtCliId.setBounds(130, 294, 400, 30);
 
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel5.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 1));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(50, 300, 110, 30);
 
         txtCliNome.setBackground(new java.awt.Color(204, 204, 255));
-        txtCliNome.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtCliNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtCliNome.setForeground(new java.awt.Color(51, 51, 51));
         txtCliNome.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtCliNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,30 +228,34 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliNome);
-        txtCliNome.setBounds(170, 330, 360, 20);
+        txtCliNome.setBounds(170, 322, 360, 30);
 
         jLabel6.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel6.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 1));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Nome:");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(70, 330, 110, 30);
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 1));
         jLabel8.setText("Gerenciar Clientes");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(30, 0, 320, 40);
+        jLabel8.setBounds(190, 0, 230, 40);
 
         jLabel7.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel7.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 1));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Telefone:");
         getContentPane().add(jLabel7);
         jLabel7.setBounds(80, 360, 110, 30);
 
         txtCliTel.setBackground(new java.awt.Color(204, 204, 255));
-        txtCliTel.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtCliTel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtCliTel.setForeground(new java.awt.Color(51, 51, 51));
         txtCliTel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtCliTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,17 +263,19 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliTel);
-        txtCliTel.setBounds(190, 360, 340, 20);
+        txtCliTel.setBounds(190, 352, 340, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel9.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 1));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Data de Nascimento:");
         getContentPane().add(jLabel9);
         jLabel9.setBounds(80, 390, 230, 30);
 
         txtCliDtnasc.setBackground(new java.awt.Color(204, 204, 255));
-        txtCliDtnasc.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtCliDtnasc.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtCliDtnasc.setForeground(new java.awt.Color(51, 51, 51));
         txtCliDtnasc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtCliDtnasc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,7 +283,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliDtnasc);
-        txtCliDtnasc.setBounds(310, 390, 220, 20);
+        txtCliDtnasc.setBounds(310, 382, 220, 30);
 
         btnUsuCreate.setBackground(java.awt.Color.lightGray);
         btnUsuCreate.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -320,6 +330,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().add(btnUsuDelete);
         btnUsuDelete.setBounds(380, 440, 70, 60);
 
+        txtCliPesquisar.setBackground(new java.awt.Color(204, 204, 255));
+        txtCliPesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtCliPesquisar.setForeground(new java.awt.Color(51, 51, 51));
         txtCliPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCliPesquisarActionPerformed(evt);
@@ -337,6 +350,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().add(btnPesquisar);
         btnPesquisar.setBounds(490, 50, 40, 40);
 
+        tblClientes.setBackground(new java.awt.Color(204, 204, 255));
+        tblClientes.setFont(new java.awt.Font("Segoe UI Emoji", 1, 16)); // NOI18N
+        tblClientes.setForeground(new java.awt.Color(51, 51, 51));
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -359,6 +375,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(90, 100, 440, 120);
 
+        jLabel1.setForeground(new java.awt.Color(0, 0, 1));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(-10, 0, 734, 522);

@@ -219,12 +219,16 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         setVisible(true);
         getContentPane().setLayout(null);
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 1));
         jLabel8.setText("Gerenciar Funcionarios");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(30, 0, 370, 40);
+        jLabel8.setBounds(160, 0, 280, 40);
 
+        txtFunPesquisar.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunPesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        txtFunPesquisar.setForeground(new java.awt.Color(0, 0, 1));
         txtFunPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFunPesquisarActionPerformed(evt);
@@ -238,6 +242,9 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         getContentPane().add(txtFunPesquisar);
         txtFunPesquisar.setBounds(90, 50, 390, 40);
 
+        tblFuncionarios.setBackground(new java.awt.Color(204, 204, 255));
+        tblFuncionarios.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
+        tblFuncionarios.setForeground(new java.awt.Color(0, 0, 1));
         tblFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -261,6 +268,8 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jScrollPane1.setBounds(90, 100, 440, 120);
 
         txtFunId.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtFunId.setForeground(new java.awt.Color(0, 0, 1));
         txtFunId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,10 +277,11 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunId);
-        txtFunId.setBounds(130, 270, 400, 20);
+        txtFunId.setBounds(130, 270, 400, 30);
 
         txtFunNome.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunNome.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtFunNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtFunNome.setForeground(new java.awt.Color(0, 0, 1));
         txtFunNome.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -279,10 +289,11 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunNome);
-        txtFunNome.setBounds(170, 330, 360, 20);
+        txtFunNome.setBounds(170, 330, 360, 30);
 
         txtFunTel.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunTel.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtFunTel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtFunTel.setForeground(new java.awt.Color(0, 0, 1));
         txtFunTel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,10 +301,11 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunTel);
-        txtFunTel.setBounds(190, 360, 340, 20);
+        txtFunTel.setBounds(190, 360, 340, 30);
 
         txtFunDtnasc.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunDtnasc.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
+        txtFunDtnasc.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtFunDtnasc.setForeground(new java.awt.Color(0, 0, 1));
         txtFunDtnasc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunDtnasc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,7 +313,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunDtnasc);
-        txtFunDtnasc.setBounds(310, 390, 220, 20);
+        txtFunDtnasc.setBounds(310, 390, 220, 30);
 
         btnUsuDelete.setBackground(java.awt.Color.lightGray);
         btnUsuDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -353,41 +365,48 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         btnPesquisar.setBounds(490, 50, 40, 40);
 
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel5.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 1));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(50, 270, 110, 30);
 
         jLabel6.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel6.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 1));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Nome:");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(70, 330, 110, 30);
 
         jLabel7.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel7.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 1));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Telefone:");
         getContentPane().add(jLabel7);
         jLabel7.setBounds(80, 360, 110, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel9.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 1));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Data de Nascimento:");
         getContentPane().add(jLabel9);
         jLabel9.setBounds(80, 390, 230, 30);
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
-        jLabel10.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 1));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("CPF:");
         getContentPane().add(jLabel10);
         jLabel10.setBounds(60, 300, 110, 30);
 
         txtFunCpf.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunCpf.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
+        txtFunCpf.setForeground(new java.awt.Color(0, 0, 1));
         txtFunCpf.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -395,7 +414,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunCpf);
-        txtFunCpf.setBounds(150, 300, 380, 20);
+        txtFunCpf.setBounds(150, 300, 380, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
