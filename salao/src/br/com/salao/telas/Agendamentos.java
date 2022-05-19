@@ -373,38 +373,35 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeFun.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeFun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
         cboAgeFun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeFunActionPerformed(evt);
             }
         });
         getContentPane().add(cboAgeFun);
-        cboAgeFun.setBounds(330, 360, 260, 30);
+        cboAgeFun.setBounds(350, 360, 260, 30);
 
         cboAgeCli.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeCli.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeCli.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeCli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
         cboAgeCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeCliActionPerformed(evt);
             }
         });
         getContentPane().add(cboAgeCli);
-        cboAgeCli.setBounds(330, 330, 260, 30);
+        cboAgeCli.setBounds(350, 330, 260, 30);
 
         cboAgeSer.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeSer.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeSer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
         cboAgeSer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeSerActionPerformed(evt);
             }
         });
         getContentPane().add(cboAgeSer);
-        cboAgeSer.setBounds(330, 300, 260, 30);
+        cboAgeSer.setBounds(350, 300, 260, 30);
 
         txtAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
