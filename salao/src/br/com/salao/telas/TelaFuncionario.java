@@ -219,7 +219,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Funcionarios");
         setMinimumSize(new java.awt.Dimension(128, 36));
-        setNormalBounds(new java.awt.Rectangle(0, 0, 104, 0));
         setPreferredSize(new java.awt.Dimension(740, 560));
         setVisible(true);
         getContentPane().setLayout(null);
@@ -424,8 +423,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 734, 522);
-
-        getAccessibleContext().setAccessibleName("Funcionarios");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

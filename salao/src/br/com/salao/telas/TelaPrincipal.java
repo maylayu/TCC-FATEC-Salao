@@ -92,6 +92,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnAgendar1.setText("Agendar");
         btnAgendar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAgendar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAgendar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgendar1ActionPerformed(evt);
+            }
+        });
 
         menCadPro.setFont(new java.awt.Font("Comic Sans MS", 1, 11)); // NOI18N
         menCadPro.setForeground(new java.awt.Color(102, 0, 102));
@@ -112,6 +117,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCadSer.setText("Serviços");
         menCadSer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         menCadSer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        menCadSer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadSerActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("BIZ UDPMincho Medium", 1, 12)); // NOI18N
         jLabel2.setText("está logado!");
@@ -278,6 +288,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tfuncionario.setVisible(true);
         Desktop.add(tfuncionario);
     }//GEN-LAST:event_menCadProActionPerformed
+
+    private void menCadSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadSerActionPerformed
+        // TODO add your handling code here:
+        TelaServico tservico = new TelaServico();
+        tservico.setVisible(true);
+        Desktop.add(tservico);
+    }//GEN-LAST:event_menCadSerActionPerformed
+
+    private void btnAgendar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendar1ActionPerformed
+        // TODO add your handling code here:
+        Agendamentos agendar = new Agendamentos();
+        agendar.setVisible(true);
+        Desktop.add(agendar);
+    }//GEN-LAST:event_btnAgendar1ActionPerformed
 
     /**
      * @param args the command line arguments

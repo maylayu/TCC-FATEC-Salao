@@ -117,7 +117,6 @@ public class TelaLogin extends javax.swing.JFrame {
         setBackground(new java.awt.Color(204, 0, 255));
         setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
         setForeground(java.awt.Color.black);
-        setPreferredSize(new java.awt.Dimension(700, 590));
         setResizable(false);
         getContentPane().setLayout(null);
 
