@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -21,13 +24,22 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    
+            
+            //cboAgeSer.setSelectedItem(rs);
+            //pst.setString(1, cboAgeSer.getSelectedItem().toString());
+            //cboAgeSer.getSelectedItem().toString();
+            //cboAgeSer.setModel((ComboBoxModel<String>) DbUtils.resultSetToTableModel(rs));
 
+
+       
     /**
      * Creates new form Agendamentos
      */
     public Agendamentos() {
         initComponents();
         conexao = ModuloConexao.conector();
+        
 
     }
     public void read(){
@@ -38,7 +50,23 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             rs = pst.executeQuery();
             
             tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
-
+            
+            String sqll = "select SERVICOS_cd_servico FROM ORDEMSERVICO";
+        
+        try {
+            pst = conexao.prepareStatement(sqll);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                //Object nextElement = rs.next().nextElement();
+                cboAgeSer.addItem(rs.getString(sqll));
+                  
+            }
+            cboAgeSer.updateUI();
+        } catch (SQLException ex) {
+            Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            //pst.setString(1, cboAgeSer.getText()+ "%");
+            
             /*
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtAgeId.getText());
@@ -233,6 +261,8 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setTitle("Agendamentos");
+        setToolTipText("");
         setMinimumSize(new java.awt.Dimension(128, 36));
         setPreferredSize(new java.awt.Dimension(740, 560));
         getContentPane().setLayout(null);
@@ -531,6 +561,23 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
     private void cboAgeSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgeSerActionPerformed
         // TODO add your handling code here:
+        String sqll = "select SERVICOS_cd_servico FROM ORDEMSERVICO";
+        
+        try {
+            pst = conexao.prepareStatement(sqll);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                //Object nextElement = rs.next().nextElement();
+                cboAgeSer.addItem(rs.getString(sqll));
+                  
+            }
+            cboAgeSer.updateUI();
+        } catch (SQLException ex) {
+            Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            //pst.setString(1, cboAgeSer.getText()+ "%");
+            
+        
     }//GEN-LAST:event_cboAgeSerActionPerformed
 
 

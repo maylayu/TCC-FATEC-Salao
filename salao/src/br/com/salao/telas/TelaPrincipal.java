@@ -301,6 +301,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Agendamentos agendar = new Agendamentos();
         agendar.setVisible(true);
         Desktop.add(agendar);
+        
     }//GEN-LAST:event_btnAgendar1ActionPerformed
 
     /**
