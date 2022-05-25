@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import java.sql.*;
+import br.com.salao.dal.ModuloConexao;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -26,12 +29,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     ResultSet rs = null;
     
             
-            //cboAgeSer.setSelectedItem(rs);
-            //pst.setString(1, cboAgeSer.getSelectedItem().toString());
-            //cboAgeSer.getSelectedItem().toString();
-            //cboAgeSer.setModel((ComboBoxModel<String>) DbUtils.resultSetToTableModel(rs));
-
-
        
     /**
      * Creates new form Agendamentos
@@ -39,9 +36,40 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     public Agendamentos() {
         initComponents();
         conexao = ModuloConexao.conector();
+        String sql = "select cd_servico, nm_servico from SERVICOS";
+        
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            //pst.setString(1, txtAgePesquisar.getText() + "%");
+            //cboAgeSer.setModel((DbUtils.resultSetToNestedList(rs)));
+            cboAgeSer.addItem(rs.getObject(2));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
         
 
     }
+    private void pesquisar_servico(){
+        String sql = "select id_servico, nm_servico from SERVICOS";
+        
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while(rs.next()){
+            cboAgeSer.addItem(rs.getObject(2));
+
+            }        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+           
+            
+    }
+    
     public void read(){
     String sql = "select * from ORDEMSERVICO where SERVICOS_cd_servico=?";
         try {
@@ -51,21 +79,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             
             tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
             
-            String sqll = "select SERVICOS_cd_servico FROM ORDEMSERVICO";
-        
-        try {
-            pst = conexao.prepareStatement(sqll);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                //Object nextElement = rs.next().nextElement();
-                cboAgeSer.addItem(rs.getString(sqll));
-                  
-            }
-            cboAgeSer.updateUI();
-        } catch (SQLException ex) {
-            Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            //pst.setString(1, cboAgeSer.getText()+ "%");
             
             /*
             pst = conexao.prepareStatement(sql);
@@ -142,9 +155,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         try {
 
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtAgeSer.getText());
-            pst.setString(2, txtAgeCli.getText());
-            pst.setString(3, txtAgeFun.getText());
+            //pst.setString(1, cboAgeSer.getSelectedText());
+            //pst.setString(2, cboAgeCli.getSelectedText());
+            //pst.setString(3, cboAgeFun.getSelectedText());
             pst.setString(4, txtAgeData.getText());
             pst.setString(5, txtAgeId.getText());
 
@@ -300,7 +313,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Código:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(40, 270, 110, 30);
+        jLabel5.setBounds(20, 240, 110, 30);
 
         tblAgendamento.setBackground(new java.awt.Color(204, 204, 255));
         tblAgendamento.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
@@ -325,14 +338,14 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblAgendamento);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(96, 100, 440, 120);
+        jScrollPane1.setBounds(40, 90, 390, 120);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 1));
         jLabel8.setText("Agendar");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(267, 6, 280, 40);
+        jLabel8.setBounds(40, 0, 280, 40);
 
         txtAgeId.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -344,7 +357,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeId);
-        txtAgeId.setBounds(160, 270, 400, 30);
+        txtAgeId.setBounds(120, 240, 90, 30);
 
         txtAgePesquisar.setBackground(new java.awt.Color(204, 204, 255));
         txtAgePesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -360,7 +373,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgePesquisar);
-        txtAgePesquisar.setBounds(96, 50, 390, 40);
+        txtAgePesquisar.setBounds(40, 40, 390, 40);
 
         btnAgeDelete.setBackground(java.awt.Color.lightGray);
         btnAgeDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -403,35 +416,43 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeFun.setForeground(new java.awt.Color(51, 51, 51));
+        cboAgeFun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário" }));
         cboAgeFun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeFunActionPerformed(evt);
             }
         });
         getContentPane().add(cboAgeFun);
-        cboAgeFun.setBounds(350, 360, 260, 30);
+        cboAgeFun.setBounds(160, 360, 260, 30);
 
         cboAgeCli.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeCli.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeCli.setForeground(new java.awt.Color(51, 51, 51));
+        cboAgeCli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clientes" }));
         cboAgeCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeCliActionPerformed(evt);
             }
         });
         getContentPane().add(cboAgeCli);
-        cboAgeCli.setBounds(350, 330, 260, 30);
+        cboAgeCli.setBounds(160, 330, 260, 30);
 
         cboAgeSer.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeSer.setForeground(new java.awt.Color(51, 51, 51));
+        cboAgeSer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Serviços" }));
         cboAgeSer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeSerActionPerformed(evt);
             }
         });
+        cboAgeSer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cboAgeSerKeyReleased(evt);
+            }
+        });
         getContentPane().add(cboAgeSer);
-        cboAgeSer.setBounds(350, 300, 260, 30);
+        cboAgeSer.setBounds(160, 300, 260, 30);
 
         txtAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -443,7 +464,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeFun);
-        txtAgeFun.setBounds(160, 360, 400, 30);
+        txtAgeFun.setBounds(230, 220, 400, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
         jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -463,7 +484,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeData);
-        txtAgeData.setBounds(160, 390, 400, 30);
+        txtAgeData.setBounds(160, 390, 260, 30);
 
         txtAgeSer.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -475,7 +496,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeSer);
-        txtAgeSer.setBounds(160, 300, 400, 30);
+        txtAgeSer.setBounds(230, 240, 400, 30);
 
         txtAgeCli.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeCli.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -487,7 +508,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeCli);
-        txtAgeCli.setBounds(160, 330, 400, 30);
+        txtAgeCli.setBounds(230, 270, 400, 30);
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -495,7 +516,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Serviço:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(40, 300, 110, 30);
+        jLabel10.setBounds(20, 300, 110, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -561,24 +582,37 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
     private void cboAgeSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgeSerActionPerformed
         // TODO add your handling code here:
-        String sqll = "select SERVICOS_cd_servico FROM ORDEMSERVICO";
-        
+        String sqll = "select nm_servico FROM ORDEMSERVICO";
+        String sql = "select nm_servico from SERVICOS";
+        try {
+            pst = conexao.prepareStatement(sql);
+            //pst.setString(1, txtAgePesquisar.getText() + "%");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
         try {
             pst = conexao.prepareStatement(sqll);
             rs = pst.executeQuery();
             while (rs.next()) {
                 //Object nextElement = rs.next().nextElement();
                 cboAgeSer.addItem(rs.getString(sqll));
-                  
+                cboAgeSer.addItem(sql);
+
             }
             cboAgeSer.updateUI();
         } catch (SQLException ex) {
             Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
         }
             //pst.setString(1, cboAgeSer.getText()+ "%");
-            
+            //cboAgeSer.setModel(pesquisar_servico());
         
     }//GEN-LAST:event_cboAgeSerActionPerformed
+
+    private void cboAgeSerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cboAgeSerKeyReleased
+        // TODO add your handling code here:
+        pesquisar_servico();
+        
+    }//GEN-LAST:event_cboAgeSerKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -588,7 +622,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel btnPesquisar;
     private javax.swing.JComboBox<String> cboAgeCli;
     private javax.swing.JComboBox<String> cboAgeFun;
-    private javax.swing.JComboBox<String> cboAgeSer;
+    private javax.swing.JComboBox<Object> cboAgeSer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel5;
