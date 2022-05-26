@@ -26,7 +26,13 @@ import net.proteanit.sql.DbUtils;
 public class Agendamentos extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
+    PreparedStatement pst2 = null;
+    PreparedStatement pst3 = null;
+
     ResultSet rs = null;
+    ResultSet rs2 = null;
+    ResultSet rs3 = null;
+
     
             
        
@@ -35,6 +41,14 @@ public class Agendamentos extends javax.swing.JInternalFrame {
      */
     public Agendamentos() {
         initComponents();
+        
+        conexao = ModuloConexao.conector();  
+        pesquisar_servico();
+        pesquisar_cliente();
+        pesquisar_funcionario();
+    }
+    
+    private void pesquisar_servico(){
         conexao = ModuloConexao.conector();
         String sql = "select cd_servico, nm_servico from SERVICOS";
         
@@ -42,32 +56,144 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
 
-            //pst.setString(1, txtAgePesquisar.getText() + "%");
-            //cboAgeSer.setModel((DbUtils.resultSetToNestedList(rs)));
-            cboAgeSer.addItem(rs.getObject(2));
+            while(rs.next()){
+            String servico = rs.getString("nm_servico");
+            cboAgeSer.addItem(servico); 
+
+            }        
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }
-        
-
+        }         
     }
-    private void pesquisar_servico(){
-        String sql = "select id_servico, nm_servico from SERVICOS";
-        
+    
+    private void pesquisar_cliente(){
+        conexao = ModuloConexao.conector();
+        String sql = "select cd_cliente, nm_cliente from CLIENTES";
+
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
 
             while(rs.next()){
-            cboAgeSer.addItem(rs.getObject(2));
-
+            String cliente = rs.getString("nm_cliente");
+            cboAgeCli.addItem(cliente);  
             }        
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }
+        }        
+    }
+    
+    private void pesquisar_funcionario(){
+        conexao = ModuloConexao.conector();        
+        String sql = "select cd_funcionario, nm_funcionario from FUNCIONARIOS";
         
-           
-            
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+                    
+            while(rs.next()){
+                String funcionario = rs.getString("nm_funcionario");
+                cboAgeFun.addItem(funcionario);
+            }          
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }       
+    }
+    
+    
+        
+    private void pesquisar_combo(){
+        conexao = ModuloConexao.conector();
+        String sql = "select cd_servico, nm_servico from SERVICOS";
+        String sql2 = "select cd_cliente, nm_cliente from CLIENTES";
+        String sql3 = "select cd_funcionario, nm_funcionario from FUNCIONARIOS";
+
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            pst2 = conexao.prepareStatement(sql2);
+            rs2 = pst.executeQuery();
+            pst3 = conexao.prepareStatement(sql3);
+            rs3 = pst.executeQuery();
+
+            while(rs.next()){
+            String servico = rs.getString("nm_servico");
+            cboAgeSer.addItem(servico);
+            }   
+            while(rs2.next()){
+                String cliente = rs2.getString("nm_cliente");
+                cboAgeCli.addItem(cliente);
+            }
+            while(rs3.next()){
+                String funcionario = rs3.getString("nm_funcionario");
+                cboAgeFun.addItem(funcionario);
+            }
+                    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }       
+    }
+            	
+	
+// essa rotina retorna o id
+    private int GetIdServico(String nm_servico){
+      conexao = ModuloConexao.conector();   
+      int cd_servico = 0;
+    
+        try{
+            //Connection con =  ModuloConexao.conector();
+            String sql = "select cd_servico from SERVICOS where nm_servico=?";
+            PreparedStatement stm = conexao.prepareStatement(sql);
+             stm.setString(1, nm_servico);               
+            ResultSet rs = stm.executeQuery();            
+            while(rs.next()){             
+                cd_servico = rs.getInt("cd_servico");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+        return cd_servico;	
+        //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
+    }
+
+    private int GetIdCliente(String nm_cliente){
+      conexao = ModuloConexao.conector();   
+      int cd_cliente = 0;
+    
+        try{
+            //Connection con =  ModuloConexao.conector();
+            String sql = "select cd_cliente from CLIENTES where nm_cliente=?";
+            PreparedStatement stm = conexao.prepareStatement(sql);
+             stm.setString(1, nm_cliente);               
+            ResultSet rs = stm.executeQuery();            
+            while(rs.next()){             
+                cd_cliente = rs.getInt("cd_cliente");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+        return cd_cliente;	
+        //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
+    }
+	// Exemplo de chamada do getId 
+    private int GetIdFuncionario(String nm_funcionario){
+      conexao = ModuloConexao.conector();   
+      int cd_funcionario = 0;
+    
+        try{
+            //Connection con =  ModuloConexao.conector();
+            String sql = "select cd_funcionario from FUNCIONARIOS where nm_funcionario=?";
+            PreparedStatement stm = conexao.prepareStatement(sql);
+             stm.setString(1, nm_funcionario);               
+            ResultSet rs = stm.executeQuery();            
+            while(rs.next()){             
+                cd_funcionario = rs.getInt("cd_funcionario");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+        return cd_funcionario;	
+        //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
     }
     
     public void read(){
@@ -115,18 +241,22 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     
     private void create() {
         String sql = "INSERT INTO ORDEMSERVICO(SERVICOS_cd_servico, CLIENTES_cd_cliente, FUNCIONARIOS_cd_funcionario, dt_atendimento)VALUES (?, ?, ?, ?)";
+        String nm_servico = cboAgeSer.getSelectedItem().toString();
+        String nm_cliente = cboAgeCli.getSelectedItem().toString();
+        String nm_funcionario = cboAgeFun.getSelectedItem().toString();
+
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtAgeSer.getText());
-            pst.setString(2, txtAgeCli.getText());
-            pst.setString(3, txtAgeFun.getText());
+            pst.setInt(1, GetIdServico(nm_servico));
+            pst.setInt(2, GetIdCliente(nm_cliente));
+            pst.setInt(3, GetIdFuncionario(nm_funcionario));
             pst.setString(4, txtAgeData.getText());
 
             //pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
 
             //validando campos obrigatórios
-            if ((txtAgeSer.getText().isEmpty()) || (txtAgeCli.getText().isEmpty())
-                    || (txtAgeFun.getText().isEmpty()) || (txtAgeData.getText().isEmpty())) {
+            if ((cboAgeSer.getSelectedItem().toString().isEmpty()) || (cboAgeCli.getSelectedItem().toString().isEmpty())
+                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
@@ -137,9 +267,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                     //
                     JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
                     txtAgeId.setText(null);
-                    txtAgeSer.setText(null);
-                    txtAgeCli.setText(null);
-                    txtAgeFun.setText(null);
+                    cboAgeSer.setSelectedItem(null);
+                    cboAgeCli.setSelectedItem(null);
+                    cboAgeFun.setSelectedItem(null);
                     txtAgeData.setText(null);
                     //cboUsuPerfil.setSelectedItem(null);
                 }
@@ -152,20 +282,24 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     
     private void update() {
         String sql = "UPDATE ORDEMSERVICO SET SERVICOS_cd_servico=?, CLIENTES_cd_cliente=?, FUNCIONARIOS_cd_funcionario=?, dt_atendimento=? WHERE cd_atendimento=?";
-        try {
+        String nm_servico = cboAgeSer.getSelectedItem().toString();
+        String nm_cliente = cboAgeCli.getSelectedItem().toString();
+        String nm_funcionario = cboAgeFun.getSelectedItem().toString();
 
+
+        try {
             pst = conexao.prepareStatement(sql);
-            //pst.setString(1, cboAgeSer.getSelectedText());
-            //pst.setString(2, cboAgeCli.getSelectedText());
-            //pst.setString(3, cboAgeFun.getSelectedText());
-            pst.setString(4, txtAgeData.getText());
+            pst.setInt(1, GetIdServico(nm_servico));
+            pst.setInt(2, GetIdCliente(nm_cliente));
+            pst.setInt(3, GetIdFuncionario(nm_funcionario));
+           pst.setString(4, txtAgeData.getText());
             pst.setString(5, txtAgeId.getText());
 
 
            
             //validando campos obrigatórios
-            if ((txtAgeId.getText().isEmpty()) || (txtAgeSer.getText().isEmpty()) || (txtAgeCli.getText().isEmpty())
-                    || (txtAgeFun.getText().isEmpty()) || (txtAgeData.getText().isEmpty())) {
+            if ((cboAgeSer.getSelectedItem().toString().isEmpty()) || (cboAgeCli.getSelectedItem().toString().isEmpty())
+                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
@@ -176,9 +310,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                     //
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
                     txtAgeId.setText(null);
-                    txtAgeSer.setText(null);
-                    txtAgeCli.setText(null);
-                    txtAgeFun.setText(null);
+                    cboAgeSer.setSelectedItem(null);
+                    cboAgeCli.setSelectedItem(null);
+                    cboAgeFun.setSelectedItem(null);
                     txtAgeData.setText(null);
 
                     
@@ -199,7 +333,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtAgeId.getText());
 
-            if ((txtAgeSer.getText().isEmpty()) || (txtAgeCli.getText().isEmpty()) || (txtAgeFun.getText().isEmpty()) || (txtAgeData.getText().isEmpty())) {
+
+            if ((cboAgeSer.getSelectedItem().toString().isEmpty()) || (cboAgeCli.getSelectedItem().toString().isEmpty())
+                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
@@ -208,19 +344,16 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                     int apagado = pst.executeUpdate();
                     if (apagado > 0) {
                         JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-                        txtAgeId.setText(null);
-                        txtAgeSer.setText(null);
-                        txtAgeCli.setText(null);
-                        txtAgeFun.setText(null);
-                        txtAgeData.setText(null);
+                    txtAgeId.setText(null);
+                    cboAgeSer.setSelectedItem(null);
+                    cboAgeCli.setSelectedItem(null);
+                    cboAgeFun.setSelectedItem(null);
+                    txtAgeData.setText(null);
 
                     }
                 } else {
-
                 }
-
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -230,9 +363,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     public void setar_campos() {
         int setar = tblAgendamento.getSelectedRow();
         //txtFunId.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
-        txtAgeSer.setText(tblAgendamento.getModel().getValueAt(setar, 1).toString());
-        txtAgeCli.setText(tblAgendamento.getModel().getValueAt(setar, 2).toString());
-        txtAgeFun.setText(tblAgendamento.getModel().getValueAt(setar, 3).toString());
+        cboAgeSer.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 1).toString());
+        cboAgeCli.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 2).toString());
+        cboAgeFun.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 3).toString());
         txtAgeData.setText(tblAgendamento.getModel().getValueAt(setar, 3).toString());
 
 
@@ -264,11 +397,8 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeFun = new javax.swing.JComboBox<>();
         cboAgeCli = new javax.swing.JComboBox<>();
         cboAgeSer = new javax.swing.JComboBox<>();
-        txtAgeFun = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtAgeData = new javax.swing.JTextField();
-        txtAgeSer = new javax.swing.JTextField();
-        txtAgeCli = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -313,7 +443,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Código:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(20, 240, 110, 30);
+        jLabel5.setBounds(50, 260, 110, 30);
 
         tblAgendamento.setBackground(new java.awt.Color(204, 204, 255));
         tblAgendamento.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
@@ -357,7 +487,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeId);
-        txtAgeId.setBounds(120, 240, 90, 30);
+        txtAgeId.setBounds(160, 260, 90, 30);
 
         txtAgePesquisar.setBackground(new java.awt.Color(204, 204, 255));
         txtAgePesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -416,7 +546,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeFun.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeFun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário" }));
         cboAgeFun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeFunActionPerformed(evt);
@@ -428,7 +557,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeCli.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeCli.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeCli.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeCli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clientes" }));
         cboAgeCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeCliActionPerformed(evt);
@@ -440,7 +568,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeSer.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         cboAgeSer.setForeground(new java.awt.Color(51, 51, 51));
-        cboAgeSer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Serviços" }));
         cboAgeSer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboAgeSerActionPerformed(evt);
@@ -453,18 +580,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         });
         getContentPane().add(cboAgeSer);
         cboAgeSer.setBounds(160, 300, 260, 30);
-
-        txtAgeFun.setBackground(new java.awt.Color(204, 204, 255));
-        txtAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtAgeFun.setForeground(new java.awt.Color(0, 0, 1));
-        txtAgeFun.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtAgeFun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgeFunActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtAgeFun);
-        txtAgeFun.setBounds(230, 220, 400, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
         jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -486,37 +601,13 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(txtAgeData);
         txtAgeData.setBounds(160, 390, 260, 30);
 
-        txtAgeSer.setBackground(new java.awt.Color(204, 204, 255));
-        txtAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtAgeSer.setForeground(new java.awt.Color(0, 0, 1));
-        txtAgeSer.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtAgeSer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgeSerActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtAgeSer);
-        txtAgeSer.setBounds(230, 240, 400, 30);
-
-        txtAgeCli.setBackground(new java.awt.Color(204, 204, 255));
-        txtAgeCli.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtAgeCli.setForeground(new java.awt.Color(0, 0, 1));
-        txtAgeCli.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtAgeCli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgeCliActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtAgeCli);
-        txtAgeCli.setBounds(230, 270, 400, 30);
-
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 1));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Serviço:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(20, 300, 110, 30);
+        jLabel10.setBounds(40, 300, 110, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -556,21 +647,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         update();
     }//GEN-LAST:event_btnAgeUpdateActionPerformed
 
-    private void txtAgeFunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeFunActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeFunActionPerformed
-
-    private void txtAgeCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeCliActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeCliActionPerformed
-
     private void txtAgeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeDataActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAgeDataActionPerformed
-
-    private void txtAgeSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeSerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeSerActionPerformed
 
     private void cboAgeFunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgeFunActionPerformed
         // TODO add your handling code here:
@@ -581,36 +660,12 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboAgeCliActionPerformed
 
     private void cboAgeSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgeSerActionPerformed
-        // TODO add your handling code here:
-        String sqll = "select nm_servico FROM ORDEMSERVICO";
-        String sql = "select nm_servico from SERVICOS";
-        try {
-            pst = conexao.prepareStatement(sql);
-            //pst.setString(1, txtAgePesquisar.getText() + "%");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        try {
-            pst = conexao.prepareStatement(sqll);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                //Object nextElement = rs.next().nextElement();
-                cboAgeSer.addItem(rs.getString(sqll));
-                cboAgeSer.addItem(sql);
-
-            }
-            cboAgeSer.updateUI();
-        } catch (SQLException ex) {
-            Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            //pst.setString(1, cboAgeSer.getText()+ "%");
-            //cboAgeSer.setModel(pesquisar_servico());
+        
         
     }//GEN-LAST:event_cboAgeSerActionPerformed
 
     private void cboAgeSerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cboAgeSerKeyReleased
         // TODO add your handling code here:
-        pesquisar_servico();
         
     }//GEN-LAST:event_cboAgeSerKeyReleased
 
@@ -632,11 +687,8 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAgendamento;
-    private javax.swing.JTextField txtAgeCli;
     private javax.swing.JTextField txtAgeData;
-    private javax.swing.JTextField txtAgeFun;
     private javax.swing.JTextField txtAgeId;
     private javax.swing.JTextField txtAgePesquisar;
-    private javax.swing.JTextField txtAgeSer;
     // End of variables declaration//GEN-END:variables
 }
