@@ -33,19 +33,31 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     ResultSet rs2 = null;
     ResultSet rs3 = null;
 
-    
+
             
        
     /**
      * Creates new form Agendamentos
      */
-    public Agendamentos() {
+    public Agendamentos(){
         initComponents();
         
         conexao = ModuloConexao.conector();  
         pesquisar_servico();
         pesquisar_cliente();
         pesquisar_funcionario();
+        
+        try{
+        String sql = "select * from ORDEMSERVICO";
+        pst = conexao.prepareStatement(sql);
+        rs = pst.executeQuery();
+        tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } 
+        
+            
     }
     
     private void pesquisar_servico(){
@@ -61,7 +73,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             cboAgeSer.addItem(servico); 
 
             }        
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }         
     }
@@ -78,7 +90,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             String cliente = rs.getString("nm_cliente");
             cboAgeCli.addItem(cliente);  
             }        
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }        
     }
@@ -95,7 +107,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 String funcionario = rs.getString("nm_funcionario");
                 cboAgeFun.addItem(funcionario);
             }          
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }       
     }
@@ -196,50 +208,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
     }
     
-    public void read(){
-    String sql = "select * from ORDEMSERVICO where SERVICOS_cd_servico=?";
-        try {
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtAgePesquisar.getText() + "%");
-            rs = pst.executeQuery();
-            
-            tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
-            
-            
-            /*
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtAgeId.getText());
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                txtAgeSer.setText(rs.getString(2));
-                txtAgeCli.setText(rs.getString(3));
-                txtAgeFun.setText(rs.getString(4));
-                txtAgeData.setText(rs.getString(5));
-
-                //combo box
-                cboAgeSer.setSelectedItem(rs.getString(5));
-
-                //ifel + ctrl+space
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
-                //as linhas abaixo limpam os campos
-                txtAgeSer.setText(null);
-                txtAgeCli.setText(null);
-                txtAgeFun.setText(null);
-                txtAgeData.setText(null);
-                cboAgeSer.setSelectedItem(rs.getString(5));
-                
-
-                                //combo box
-                //cboUsuPerfil.setSelectedItem(null);
-            }*/
-
-        } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
+    
     
     private void create() {
+        conexao = ModuloConexao.conector();   
+
         String sql = "INSERT INTO ORDEMSERVICO(SERVICOS_cd_servico, CLIENTES_cd_cliente, FUNCIONARIOS_cd_funcionario, dt_atendimento)VALUES (?, ?, ?, ?)";
         String nm_servico = cboAgeSer.getSelectedItem().toString();
         String nm_cliente = cboAgeCli.getSelectedItem().toString();
@@ -362,13 +335,10 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
     public void setar_campos() {
         int setar = tblAgendamento.getSelectedRow();
-        //txtFunId.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
         cboAgeSer.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 1).toString());
         cboAgeCli.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 2).toString());
         cboAgeFun.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 3).toString());
-        txtAgeData.setText(tblAgendamento.getModel().getValueAt(setar, 3).toString());
-
-
+        txtAgeData.setText(tblAgendamento.getModel().getValueAt(setar, 4).toString());
         
     }
     
@@ -384,13 +354,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
         jLabel7 = new javax.swing.JLabel();
         btnAgeCreate = new javax.swing.JButton();
-        btnPesquisar = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAgendamento = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         txtAgeId = new javax.swing.JTextField();
-        txtAgePesquisar = new javax.swing.JTextField();
         btnAgeDelete = new javax.swing.JButton();
         btnAgeUpdate = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -433,10 +401,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(btnAgeCreate);
         btnAgeCreate.setBounds(190, 450, 70, 60);
 
-        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
-        getContentPane().add(btnPesquisar);
-        btnPesquisar.setBounds(496, 50, 40, 40);
-
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
         jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 1));
@@ -450,32 +414,52 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         tblAgendamento.setForeground(new java.awt.Color(0, 0, 1));
         tblAgendamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Serviço", "Cliente", "Funcionário", "Data"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAgendamento.setColumnSelectionAllowed(true);
         tblAgendamento.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblAgendamento.getTableHeader().setResizingAllowed(false);
+        tblAgendamento.getTableHeader().setReorderingAllowed(false);
         tblAgendamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblAgendamentoMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblAgendamento);
+        tblAgendamento.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (tblAgendamento.getColumnModel().getColumnCount() > 0) {
+            tblAgendamento.getColumnModel().getColumn(0).setResizable(false);
+            tblAgendamento.getColumnModel().getColumn(1).setResizable(false);
+            tblAgendamento.getColumnModel().getColumn(2).setResizable(false);
+            tblAgendamento.getColumnModel().getColumn(3).setResizable(false);
+            tblAgendamento.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(40, 90, 390, 120);
+        jScrollPane1.setBounds(40, 60, 470, 150);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 1));
         jLabel8.setText("Agendar");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(40, 0, 280, 40);
+        jLabel8.setBounds(220, 10, 130, 40);
 
         txtAgeId.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -488,22 +472,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         });
         getContentPane().add(txtAgeId);
         txtAgeId.setBounds(160, 260, 90, 30);
-
-        txtAgePesquisar.setBackground(new java.awt.Color(204, 204, 255));
-        txtAgePesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        txtAgePesquisar.setForeground(new java.awt.Color(0, 0, 1));
-        txtAgePesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgePesquisarActionPerformed(evt);
-            }
-        });
-        txtAgePesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtAgePesquisarKeyReleased(evt);
-            }
-        });
-        getContentPane().add(txtAgePesquisar);
-        txtAgePesquisar.setBounds(40, 40, 390, 40);
 
         btnAgeDelete.setBackground(java.awt.Color.lightGray);
         btnAgeDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -629,14 +597,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAgeIdActionPerformed
 
-    private void txtAgePesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgePesquisarActionPerformed
-        read();
-    }//GEN-LAST:event_txtAgePesquisarActionPerformed
-
-    private void txtAgePesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAgePesquisarKeyReleased
-        read();
-    }//GEN-LAST:event_txtAgePesquisarKeyReleased
-
     private void btnAgeDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgeDeleteActionPerformed
         // chamando o metodo logar
         delete();
@@ -674,7 +634,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAgeCreate;
     private javax.swing.JButton btnAgeDelete;
     private javax.swing.JButton btnAgeUpdate;
-    private javax.swing.JLabel btnPesquisar;
     private javax.swing.JComboBox<String> cboAgeCli;
     private javax.swing.JComboBox<String> cboAgeFun;
     private javax.swing.JComboBox<Object> cboAgeSer;
@@ -689,6 +648,5 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblAgendamento;
     private javax.swing.JTextField txtAgeData;
     private javax.swing.JTextField txtAgeId;
-    private javax.swing.JTextField txtAgePesquisar;
     // End of variables declaration//GEN-END:variables
 }
