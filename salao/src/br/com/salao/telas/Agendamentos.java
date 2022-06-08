@@ -409,6 +409,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(50, 260, 110, 30);
 
+        tblAgendamento = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblAgendamento.setBackground(new java.awt.Color(204, 204, 255));
         tblAgendamento.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
         tblAgendamento.setForeground(new java.awt.Color(0, 0, 1));

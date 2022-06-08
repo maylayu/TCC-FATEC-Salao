@@ -136,6 +136,7 @@ public class TelaLogin extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
         btnLogin.setText("Login");
         btnLogin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 204), 3, true));
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -153,6 +154,7 @@ public class TelaLogin extends javax.swing.JFrame {
         txtSenha.setBounds(160, 140, 134, 30);
 
         lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/dberror.png"))); // NOI18N
+        lblStatus.setToolTipText("Conectado");
         getContentPane().add(lblStatus);
         lblStatus.setBounds(330, 190, 48, 48);
 
