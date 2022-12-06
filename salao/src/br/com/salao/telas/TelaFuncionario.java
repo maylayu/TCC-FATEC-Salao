@@ -39,7 +39,8 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     }
 
     private void read() {
-        String sql = "select * from FUNCIONARIOS where nm_funcionario like ?";
+        String sql = "SELECT cd_funcionario as Código, cd_cpf_funcionario as CPF, nm_funcionario Funcionário, "
+                + "tel_funcionario as Telefone, dt_nasc_func as Nascimento FROM FUNCIONARIOS WHERE nm_funcionario like ?";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtFunPesquisar.getText() + "%");
@@ -178,7 +179,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
 
     public void setar_campos() {
         int setar = tblFuncionarios.getSelectedRow();
-        //txtFunId.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
+        txtFunId.setText(tblFuncionarios.getModel().getValueAt(setar, 0).toString());
         txtFunCpf.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
         txtFunNome.setText(tblFuncionarios.getModel().getValueAt(setar, 2).toString());
         txtFunTel.setText(tblFuncionarios.getModel().getValueAt(setar, 3).toString());
@@ -246,31 +247,43 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         getContentPane().add(txtFunPesquisar);
         txtFunPesquisar.setBounds(90, 50, 390, 40);
 
+        tblFuncionarios = new javax.swing.JTable();
+        tblFuncionarios = new javax.swing.JTable(){
+            public boolean isCellEditable(
+                int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblFuncionarios.setBackground(new java.awt.Color(204, 204, 255));
         tblFuncionarios.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
         tblFuncionarios.setForeground(new java.awt.Color(0, 0, 1));
         tblFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "CPF", "Nome", "Telefone", "Nascimento"
             }
         ));
         tblFuncionarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblFuncionarios.getTableHeader().setReorderingAllowed(false);
         tblFuncionarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblFuncionariosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblFuncionarios);
+        if (tblFuncionarios.getColumnModel().getColumnCount() > 0) {
+            tblFuncionarios.getColumnModel().getColumn(0).setMaxWidth(900);
+        }
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(90, 100, 440, 120);
 
+        txtFunId.setEditable(false);
         txtFunId.setBackground(new java.awt.Color(204, 204, 255));
         txtFunId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         txtFunId.setForeground(new java.awt.Color(0, 0, 1));
@@ -281,7 +294,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunId);
-        txtFunId.setBounds(130, 270, 400, 30);
+        txtFunId.setBounds(140, 270, 40, 30);
 
         txtFunNome.setBackground(new java.awt.Color(204, 204, 255));
         txtFunNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -317,7 +330,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunDtnasc);
-        txtFunDtnasc.setBounds(310, 390, 220, 30);
+        txtFunDtnasc.setBounds(280, 390, 250, 30);
 
         btnUsuDelete.setBackground(java.awt.Color.lightGray);
         btnUsuDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -374,7 +387,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(50, 270, 110, 30);
+        jLabel5.setBounds(60, 270, 100, 30);
 
         jLabel6.setBackground(new java.awt.Color(204, 0, 204));
         jLabel6.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -398,7 +411,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Data de Nascimento:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(80, 390, 230, 30);
+        jLabel9.setBounds(70, 390, 230, 30);
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N

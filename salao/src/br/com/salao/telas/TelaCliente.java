@@ -33,7 +33,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     }
 
     private void read() {
-        String sql = "select * from CLIENTES where nm_cliente like ?";
+        String sql = "SELECT cd_cliente AS Código, nm_cliente AS Nome, tel_cliente AS Telefone, "
+                + "dt_nasc_cliente AS Nascimento FROM CLIENTES where nm_cliente like ?";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtCliPesquisar.getText() + "%");
@@ -155,7 +156,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     public void setar_campos() {
         int setar = tblClientes.getSelectedRow();
-        //txtCliId.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
+        txtCliId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
         txtCliNome.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
         txtCliTel.setText(tblClientes.getModel().getValueAt(setar, 2).toString());
         txtCliDtnasc.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
@@ -197,6 +198,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         setVisible(true);
         getContentPane().setLayout(null);
 
+        txtCliId.setEditable(false);
         txtCliId.setBackground(new java.awt.Color(204, 204, 255));
         txtCliId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         txtCliId.setForeground(new java.awt.Color(51, 51, 51));
@@ -207,7 +209,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliId);
-        txtCliId.setBounds(130, 294, 400, 30);
+        txtCliId.setBounds(130, 294, 40, 30);
 
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
         jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -215,7 +217,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(50, 300, 110, 30);
+        jLabel5.setBounds(60, 300, 100, 30);
 
         txtCliNome.setBackground(new java.awt.Color(204, 204, 255));
         txtCliNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -270,7 +272,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Data de Nascimento:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(80, 390, 230, 30);
+        jLabel9.setBounds(60, 390, 250, 30);
 
         txtCliDtnasc.setBackground(new java.awt.Color(204, 204, 255));
         txtCliDtnasc.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -282,7 +284,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCliDtnasc);
-        txtCliDtnasc.setBounds(310, 382, 220, 30);
+        txtCliDtnasc.setBounds(280, 382, 250, 30);
 
         btnUsuCreate.setBackground(java.awt.Color.lightGray);
         btnUsuCreate.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -349,6 +351,13 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         getContentPane().add(btnPesquisar);
         btnPesquisar.setBounds(490, 50, 40, 40);
 
+        tblClientes = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable(){
+            public boolean isCellEditable(
+                int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblClientes.setBackground(new java.awt.Color(204, 204, 255));
         tblClientes.setFont(new java.awt.Font("Segoe UI Emoji", 1, 16)); // NOI18N
         tblClientes.setForeground(new java.awt.Color(51, 51, 51));
@@ -360,10 +369,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Nome", "Telefone", "Nascimento"
             }
         ));
         tblClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblClientes.getTableHeader().setReorderingAllowed(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);

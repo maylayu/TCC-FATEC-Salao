@@ -48,7 +48,12 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         pesquisar_funcionario();
         
         try{
-        String sql = "select * from ORDEMSERVICO";
+        //String sql = "SELECT cd_atendimento as Código, SERVICOS_cd_servico as Serviço, CLIENTES_cd_cliente as Cliente, FUNCIONARIOS_cd_funcionario as Funcionário, dt_atendimento as Data FROM ORDEMSERVICO";
+        String sql = """
+                     SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente Cliente, f.nm_funcionario as Funcionário, o.dt_atendimento as Atendimento
+                     FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.cd_atendimento = s.cd_servico
+                     JOIN CLIENTES AS c ON s.cd_servico = c.cd_cliente
+                     JOIN FUNCIONARIOS AS f ON c.cd_cliente = f.cd_funcionario;""";
         pst = conexao.prepareStatement(sql);
         rs = pst.executeQuery();
         tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
@@ -335,6 +340,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
     public void setar_campos() {
         int setar = tblAgendamento.getSelectedRow();
+        txtAgeId.setText(tblAgendamento.getModel().getValueAt(setar, 0).toString());
         cboAgeSer.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 1).toString());
         cboAgeCli.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 2).toString());
         cboAgeFun.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 3).toString());
@@ -409,6 +415,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(50, 260, 110, 30);
 
+        tblAgendamento = new javax.swing.JTable();
         tblAgendamento = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
                 return false;
@@ -437,7 +444,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblAgendamento.setColumnSelectionAllowed(true);
         tblAgendamento.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblAgendamento.getTableHeader().setResizingAllowed(false);
         tblAgendamento.getTableHeader().setReorderingAllowed(false);
@@ -447,7 +453,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(tblAgendamento);
-        tblAgendamento.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (tblAgendamento.getColumnModel().getColumnCount() > 0) {
             tblAgendamento.getColumnModel().getColumn(0).setResizable(false);
             tblAgendamento.getColumnModel().getColumn(1).setResizable(false);
@@ -466,6 +471,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel8);
         jLabel8.setBounds(220, 10, 130, 40);
 
+        txtAgeId.setEditable(false);
         txtAgeId.setBackground(new java.awt.Color(204, 204, 255));
         txtAgeId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         txtAgeId.setForeground(new java.awt.Color(0, 0, 1));
@@ -476,7 +482,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeId);
-        txtAgeId.setBounds(160, 260, 90, 30);
+        txtAgeId.setBounds(160, 260, 40, 30);
 
         btnAgeDelete.setBackground(java.awt.Color.lightGray);
         btnAgeDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N

@@ -31,7 +31,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
     }
     
     private void read() {
-        String sql = "select * from SERVICOS where nm_servico like ?";
+        String sql = "SELECT cd_servico as Código, nm_servico as Nome, vl_preco as Preço from SERVICOS where nm_servico like ?";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtSerPesquisar.getText() + "%");
@@ -158,7 +158,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
 
     public void setar_campos() {
         int setar = tblServicos.getSelectedRow();
-        //txtFunId.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
+        txtSerId.setText(tblServicos.getModel().getValueAt(setar, 0).toString());
         txtSerNome.setText(tblServicos.getModel().getValueAt(setar, 1).toString());
         txtSerValor.setText(tblServicos.getModel().getValueAt(setar, 2).toString());
         
@@ -233,6 +233,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
         getContentPane().add(btnSerDelete);
         btnSerDelete.setBounds(386, 440, 70, 60);
 
+        txtSerId.setEditable(false);
         txtSerId.setBackground(new java.awt.Color(204, 204, 255));
         txtSerId.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         txtSerId.setForeground(new java.awt.Color(0, 0, 1));
@@ -243,7 +244,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtSerId);
-        txtSerId.setBounds(136, 270, 400, 30);
+        txtSerId.setBounds(136, 270, 40, 30);
 
         txtSerPesquisar.setBackground(new java.awt.Color(204, 204, 255));
         txtSerPesquisar.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -285,27 +286,47 @@ public class TelaServico extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel7);
         jLabel7.setBounds(88, 353, 62, 30);
 
+        tblServicos = new javax.swing.JTable();
+        tblServicos = new javax.swing.JTable(){
+            public boolean isCellEditable(
+                int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblServicos.setBackground(new java.awt.Color(204, 204, 255));
         tblServicos.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
         tblServicos.setForeground(new java.awt.Color(0, 0, 1));
         tblServicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Nome", "Valor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblServicos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblServicos.getTableHeader().setReorderingAllowed(false);
         tblServicos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblServicosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblServicos);
+        if (tblServicos.getColumnModel().getColumnCount() > 0) {
+            tblServicos.getColumnModel().getColumn(0).setResizable(false);
+            tblServicos.getColumnModel().getColumn(1).setResizable(false);
+            tblServicos.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(96, 100, 440, 120);

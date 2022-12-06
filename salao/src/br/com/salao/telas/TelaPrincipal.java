@@ -53,7 +53,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menOpcSai = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema Salão Donzela");
+        setTitle("Sistema Salão Dark Souls");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
