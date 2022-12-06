@@ -49,11 +49,10 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         
         try{
         //String sql = "SELECT cd_atendimento as Código, SERVICOS_cd_servico as Serviço, CLIENTES_cd_cliente as Cliente, FUNCIONARIOS_cd_funcionario as Funcionário, dt_atendimento as Data FROM ORDEMSERVICO";
-        String sql = """
-                     SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente Cliente, f.nm_funcionario as Funcionário, o.dt_atendimento as Atendimento
-                     FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.cd_atendimento = s.cd_servico
-                     JOIN CLIENTES AS c ON s.cd_servico = c.cd_cliente
-                     JOIN FUNCIONARIOS AS f ON c.cd_cliente = f.cd_funcionario;""";
+        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, o.dt_atendimento as 'Data Atendimento' "
+                + "FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.SERVICOS_cd_servico = s.cd_servico "
+                + "JOIN CLIENTES AS c ON o.CLIENTES_cd_cliente = c.cd_cliente "
+                + "JOIN FUNCIONARIOS AS f ON o.FUNCIONARIOS_cd_funcionario = f.cd_funcionario;";
         pst = conexao.prepareStatement(sql);
         rs = pst.executeQuery();
         tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
