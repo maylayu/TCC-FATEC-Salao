@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 import java.sql.*;
 import br.com.salao.dal.ModuloConexao;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -49,7 +51,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         
         try{
         //String sql = "SELECT cd_atendimento as Código, SERVICOS_cd_servico as Serviço, CLIENTES_cd_cliente as Cliente, FUNCIONARIOS_cd_funcionario as Funcionário, dt_atendimento as Data FROM ORDEMSERVICO";
-        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, o.dt_atendimento as 'Data Atendimento' "
+        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, date_format(o.dt_atendimento, '%d/%m/%Y') as 'Data Atendimento' "
                 + "FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.SERVICOS_cd_servico = s.cd_servico "
                 + "JOIN CLIENTES AS c ON o.CLIENTES_cd_cliente = c.cd_cliente "
                 + "JOIN FUNCIONARIOS AS f ON o.FUNCIONARIOS_cd_funcionario = f.cd_funcionario;";
@@ -227,7 +229,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             pst.setInt(1, GetIdServico(nm_servico));
             pst.setInt(2, GetIdCliente(nm_cliente));
             pst.setInt(3, GetIdFuncionario(nm_funcionario));
-            pst.setString(4, txtAgeData.getText());
+            
+            String dta = txtAgeData.getText();
+            LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            java.sql.Date data = java.sql.Date.valueOf(id);
+            pst.setDate(4, data);
 
             //pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
 
@@ -269,7 +275,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             pst.setInt(1, GetIdServico(nm_servico));
             pst.setInt(2, GetIdCliente(nm_cliente));
             pst.setInt(3, GetIdFuncionario(nm_funcionario));
-           pst.setString(4, txtAgeData.getText());
+            
+            String dta = txtAgeData.getText();
+            LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            java.sql.Date data = java.sql.Date.valueOf(id);
+            pst.setDate(4, data);
             pst.setString(5, txtAgeId.getText());
 
 
@@ -371,8 +381,8 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeCli = new javax.swing.JComboBox<>();
         cboAgeSer = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        txtAgeData = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        txtAgeData = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -567,18 +577,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel9);
         jLabel9.setBounds(40, 360, 110, 30);
 
-        txtAgeData.setBackground(new java.awt.Color(204, 204, 255));
-        txtAgeData.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtAgeData.setForeground(new java.awt.Color(0, 0, 1));
-        txtAgeData.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtAgeData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgeDataActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtAgeData);
-        txtAgeData.setBounds(160, 390, 260, 30);
-
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 1));
@@ -587,7 +585,29 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel10);
         jLabel10.setBounds(40, 300, 110, 30);
 
+        txtAgeData.setBackground(new java.awt.Color(204, 204, 255));
+        try {
+            txtAgeData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtAgeData.setText("");
+        txtAgeData.setToolTipText("");
+        txtAgeData.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtAgeData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAgeDataActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtAgeData);
+        txtAgeData.setBounds(160, 390, 260, 30);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
+        jLabel1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jLabel1ComponentShown(evt);
+            }
+        });
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, -30, 734, 570);
 
@@ -617,10 +637,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         update();
     }//GEN-LAST:event_btnAgeUpdateActionPerformed
 
-    private void txtAgeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeDataActionPerformed
-
     private void cboAgeFunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgeFunActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboAgeFunActionPerformed
@@ -639,6 +655,19 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cboAgeSerKeyReleased
 
+    private void txtAgeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAgeDataActionPerformed
+
+    private void jLabel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel1ComponentShown
+        // TODO add your handling code here:
+        txtAgeId.setText(null);
+        cboAgeSer.setSelectedItem(null);
+        cboAgeCli.setSelectedItem(null);
+        cboAgeFun.setSelectedItem(null);
+        txtAgeData.setText(null);
+    }//GEN-LAST:event_jLabel1ComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgeCreate;
@@ -656,7 +685,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAgendamento;
-    private javax.swing.JTextField txtAgeData;
+    private javax.swing.JFormattedTextField txtAgeData;
     private javax.swing.JTextField txtAgeId;
     // End of variables declaration//GEN-END:variables
 }

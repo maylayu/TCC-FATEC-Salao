@@ -182,7 +182,6 @@ public class TelaServico extends javax.swing.JInternalFrame {
         txtSerId = new javax.swing.JTextField();
         txtSerPesquisar = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JLabel();
-        txtSerValor = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblServicos = new javax.swing.JTable();
@@ -190,6 +189,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
         btnSerUpdate = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnSerCreate = new javax.swing.JButton();
+        txtSerValor = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -216,7 +216,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtSerNome);
-        txtSerNome.setBounds(169, 311, 366, 30);
+        txtSerNome.setBounds(169, 311, 370, 30);
 
         btnSerDelete.setBackground(java.awt.Color.lightGray);
         btnSerDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -265,18 +265,6 @@ public class TelaServico extends javax.swing.JInternalFrame {
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
         getContentPane().add(btnPesquisar);
         btnPesquisar.setBounds(496, 50, 40, 40);
-
-        txtSerValor.setBackground(new java.awt.Color(204, 204, 255));
-        txtSerValor.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtSerValor.setForeground(new java.awt.Color(0, 0, 1));
-        txtSerValor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtSerValor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSerValorActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtSerValor);
-        txtSerValor.setBounds(162, 353, 373, 30);
 
         jLabel7.setBackground(new java.awt.Color(204, 0, 204));
         jLabel7.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -377,6 +365,23 @@ public class TelaServico extends javax.swing.JInternalFrame {
         getContentPane().add(btnSerCreate);
         btnSerCreate.setBounds(186, 440, 70, 60);
 
+        txtSerValor.setBackground(new java.awt.Color(204, 204, 255));
+        try {
+            txtSerValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtSerValor.setToolTipText("");
+        txtSerValor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtSerValor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSerValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSerValorActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtSerValor);
+        txtSerValor.setBounds(170, 350, 370, 30);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, -30, 734, 540);
@@ -405,10 +410,6 @@ public class TelaServico extends javax.swing.JInternalFrame {
         read();
     }//GEN-LAST:event_txtSerPesquisarKeyReleased
 
-    private void txtSerValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerValorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSerValorActionPerformed
-
     private void tblServicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServicosMouseClicked
         setar_campos();
     }//GEN-LAST:event_tblServicosMouseClicked
@@ -422,6 +423,10 @@ public class TelaServico extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         create();
     }//GEN-LAST:event_btnSerCreateActionPerformed
+
+    private void txtSerValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSerValorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -439,6 +444,6 @@ public class TelaServico extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtSerId;
     private javax.swing.JTextField txtSerNome;
     private javax.swing.JTextField txtSerPesquisar;
-    private javax.swing.JTextField txtSerValor;
+    private javax.swing.JFormattedTextField txtSerValor;
     // End of variables declaration//GEN-END:variables
 }

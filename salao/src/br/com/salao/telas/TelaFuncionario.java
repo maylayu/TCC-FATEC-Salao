@@ -12,7 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,19 +31,20 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/mm/dd");
     /**
      * Creates new form TelaFuncionario
      */
     public TelaFuncionario() {
         initComponents();
         conexao = ModuloConexao.conector();
-
     }
-
+    
+    
+    
     private void read() {
         String sql = "SELECT cd_funcionario as Código, cd_cpf_funcionario as CPF, nm_funcionario Funcionário, "
-                + "tel_funcionario as Telefone, dt_nasc_func as Nascimento FROM FUNCIONARIOS WHERE nm_funcionario like ?";
+                + "tel_funcionario as Telefone, date_format(dt_nasc_func, '%d/%m/%Y') as Nascimento FROM FUNCIONARIOS WHERE nm_funcionario like ?";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtFunPesquisar.getText() + "%");
@@ -73,7 +77,11 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             pst.setString(1, txtFunCpf.getText());
             pst.setString(2, txtFunNome.getText());
             pst.setString(3, txtFunTel.getText());
-            pst.setString(4, txtFunDtnasc.getText());
+            
+            String dta = txtFunDtnasc.getText();
+            LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            java.sql.Date data = java.sql.Date.valueOf(id);
+            pst.setDate(4, data);
 
             //validando campos obrigatórios
             //txtCliId.getText().isEmpty())
@@ -111,7 +119,10 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             pst.setString(1, txtFunCpf.getText());
             pst.setString(2, txtFunNome.getText());
             pst.setString(3, txtFunTel.getText());
-            pst.setString(4, txtFunDtnasc.getText());
+            String dta = txtFunDtnasc.getText();
+            LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            java.sql.Date data = java.sql.Date.valueOf(id);
+            pst.setDate(4, data);
             pst.setString(5, txtFunId.getText());
 
             //validando campos obrigatórios
@@ -202,8 +213,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         tblFuncionarios = new javax.swing.JTable();
         txtFunId = new javax.swing.JTextField();
         txtFunNome = new javax.swing.JTextField();
-        txtFunTel = new javax.swing.JTextField();
-        txtFunDtnasc = new javax.swing.JTextField();
         btnUsuDelete = new javax.swing.JButton();
         btnUsuUpdate = new javax.swing.JButton();
         btnUsuCreate = new javax.swing.JButton();
@@ -213,7 +222,9 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtFunCpf = new javax.swing.JTextField();
+        txtFunDtnasc = new javax.swing.JFormattedTextField();
+        txtFunTel = new javax.swing.JFormattedTextField();
+        txtFunCpf = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -299,6 +310,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         txtFunNome.setBackground(new java.awt.Color(204, 204, 255));
         txtFunNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         txtFunNome.setForeground(new java.awt.Color(0, 0, 1));
+        txtFunNome.setToolTipText("");
         txtFunNome.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,31 +318,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunNome);
-        txtFunNome.setBounds(170, 330, 360, 30);
-
-        txtFunTel.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunTel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtFunTel.setForeground(new java.awt.Color(0, 0, 1));
-        txtFunTel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtFunTel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFunTelActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtFunTel);
-        txtFunTel.setBounds(190, 360, 340, 30);
-
-        txtFunDtnasc.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunDtnasc.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtFunDtnasc.setForeground(new java.awt.Color(0, 0, 1));
-        txtFunDtnasc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtFunDtnasc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFunDtnascActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtFunDtnasc);
-        txtFunDtnasc.setBounds(280, 390, 250, 30);
+        txtFunNome.setBounds(180, 330, 350, 30);
 
         btnUsuDelete.setBackground(java.awt.Color.lightGray);
         btnUsuDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -421,17 +409,59 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel10);
         jLabel10.setBounds(60, 300, 110, 30);
 
+        txtFunDtnasc.setBackground(new java.awt.Color(204, 204, 255));
+        try {
+            txtFunDtnasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtFunDtnasc.setText("");
+        txtFunDtnasc.setToolTipText("");
+        txtFunDtnasc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtFunDtnasc.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtFunDtnasc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFunDtnascActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtFunDtnasc);
+        txtFunDtnasc.setBounds(280, 390, 250, 30);
+
+        txtFunTel.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunTel.setForeground(new java.awt.Color(0, 0, 1));
+        try {
+            txtFunTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ##### - ####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtFunTel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtFunTel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtFunTel.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtFunTel.setSelectionColor(new java.awt.Color(0, 0, 153));
+        txtFunTel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFunTelActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtFunTel);
+        txtFunTel.setBounds(180, 360, 350, 30);
+
         txtFunCpf.setBackground(new java.awt.Color(204, 204, 255));
-        txtFunCpf.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        txtFunCpf.setForeground(new java.awt.Color(0, 0, 1));
+        try {
+            txtFunCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtFunCpf.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtFunCpf.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtFunCpf.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         txtFunCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFunCpfActionPerformed(evt);
             }
         });
         getContentPane().add(txtFunCpf);
-        txtFunCpf.setBounds(150, 300, 380, 30);
+        txtFunCpf.setBounds(180, 300, 350, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -460,14 +490,6 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFunNomeActionPerformed
 
-    private void txtFunTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunTelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFunTelActionPerformed
-
-    private void txtFunDtnascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunDtnascActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFunDtnascActionPerformed
-
     private void btnUsuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuDeleteActionPerformed
         // chamando o metodo logar
         delete();
@@ -483,8 +505,17 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         create();
     }//GEN-LAST:event_btnUsuCreateActionPerformed
 
+    private void txtFunDtnascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunDtnascActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFunDtnascActionPerformed
+
+    private void txtFunTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunTelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFunTelActionPerformed
+
     private void txtFunCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFunCpfActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtFunCpfActionPerformed
 
 
@@ -502,11 +533,15 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblFuncionarios;
-    private javax.swing.JTextField txtFunCpf;
-    private javax.swing.JTextField txtFunDtnasc;
+    private javax.swing.JFormattedTextField txtFunCpf;
+    private javax.swing.JFormattedTextField txtFunDtnasc;
     private javax.swing.JTextField txtFunId;
     private javax.swing.JTextField txtFunNome;
     private javax.swing.JTextField txtFunPesquisar;
-    private javax.swing.JTextField txtFunTel;
+    private javax.swing.JFormattedTextField txtFunTel;
     // End of variables declaration//GEN-END:variables
+
+    private String formatter(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
