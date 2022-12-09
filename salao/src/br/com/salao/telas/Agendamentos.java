@@ -18,6 +18,7 @@ import net.proteanit.sql.DbUtils;
 import java.sql.*;
 import br.com.salao.dal.ModuloConexao;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import net.proteanit.sql.DbUtils;
 
@@ -51,7 +52,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         
         try{
         //String sql = "SELECT cd_atendimento as Código, SERVICOS_cd_servico as Serviço, CLIENTES_cd_cliente as Cliente, FUNCIONARIOS_cd_funcionario as Funcionário, dt_atendimento as Data FROM ORDEMSERVICO";
-        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, date_format(o.dt_atendimento, '%d/%m/%Y') as 'Data Atendimento' "
+        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, date_format(o.dt_atendimento, '%d/%m/%Y') as Data, time_format(o.hr_atendimento, '%H:%i') as Hora "
                 + "FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.SERVICOS_cd_servico = s.cd_servico "
                 + "JOIN CLIENTES AS c ON o.CLIENTES_cd_cliente = c.cd_cliente "
                 + "JOIN FUNCIONARIOS AS f ON o.FUNCIONARIOS_cd_funcionario = f.cd_funcionario;";
@@ -60,10 +61,30 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
         
         }catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         } 
         
             
+    }
+    private void read(){
+        conexao = ModuloConexao.conector();  
+        pesquisar_servico();
+        pesquisar_cliente();
+        pesquisar_funcionario();
+        
+        try{
+        //String sql = "SELECT cd_atendimento as Código, SERVICOS_cd_servico as Serviço, CLIENTES_cd_cliente as Cliente, FUNCIONARIOS_cd_funcionario as Funcionário, dt_atendimento as Data FROM ORDEMSERVICO";
+        String sql = "SELECT o.cd_atendimento as Código, s.nm_servico as Serviço, c.nm_cliente as Cliente, f.nm_funcionario as Funcionário, date_format(o.dt_atendimento, '%d/%m/%Y') as Data, time_format(o.hr_atendimento, '%H:%i') as Hora "
+                + "FROM ORDEMSERVICO AS o JOIN SERVICOS AS s on o.SERVICOS_cd_servico = s.cd_servico "
+                + "JOIN CLIENTES AS c ON o.CLIENTES_cd_cliente = c.cd_cliente "
+                + "JOIN FUNCIONARIOS AS f ON o.FUNCIONARIOS_cd_funcionario = f.cd_funcionario;";
+        pst = conexao.prepareStatement(sql);
+        rs = pst.executeQuery();
+        tblAgendamento.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
+        } 
     }
     
     private void pesquisar_servico(){
@@ -80,7 +101,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
             }        
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }         
     }
     
@@ -97,7 +118,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             cboAgeCli.addItem(cliente);  
             }        
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }        
     }
     
@@ -114,7 +135,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 cboAgeFun.addItem(funcionario);
             }          
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }       
     }
     
@@ -148,7 +169,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
                     
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }       
     }
             	
@@ -168,7 +189,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 cd_servico = rs.getInt("cd_servico");
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }   
         return cd_servico;	
         //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
@@ -188,7 +209,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 cd_cliente = rs.getInt("cd_cliente");
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }   
         return cd_cliente;	
         //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
@@ -208,7 +229,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 cd_funcionario = rs.getInt("cd_funcionario");
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }   
         return cd_funcionario;	
         //int v = GetIdServico(cboAgeSer.getSelectedItem().toString());
@@ -219,7 +240,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private void create() {
         conexao = ModuloConexao.conector();   
 
-        String sql = "INSERT INTO ORDEMSERVICO(SERVICOS_cd_servico, CLIENTES_cd_cliente, FUNCIONARIOS_cd_funcionario, dt_atendimento)VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO ORDEMSERVICO(SERVICOS_cd_servico, CLIENTES_cd_cliente, FUNCIONARIOS_cd_funcionario, dt_atendimento, hr_atendimento)VALUES (?, ?, ?, ?, ?)";
         String nm_servico = cboAgeSer.getSelectedItem().toString();
         String nm_cliente = cboAgeCli.getSelectedItem().toString();
         String nm_funcionario = cboAgeFun.getSelectedItem().toString();
@@ -234,12 +255,16 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             java.sql.Date data = java.sql.Date.valueOf(id);
             pst.setDate(4, data);
-
+            
+            String hora = txtAgeHora.getText();
+            LocalTime id2 = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+            java.sql.Time hor = java.sql.Time.valueOf(id2);
+            pst.setTime(5, hor);
             //pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
 
             //validando campos obrigatórios
             if ((cboAgeSer.getSelectedItem().toString().isEmpty()) || (cboAgeCli.getSelectedItem().toString().isEmpty())
-                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty())) {
+                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty()) || (txtAgeData.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
@@ -248,23 +273,24 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                 //Esse confirma se alguma coisa foi inserida mesmo
                 if (adicionado > 0) {
                     //
-                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Agendamento criado com sucesso!");
                     txtAgeId.setText(null);
                     cboAgeSer.setSelectedItem(null);
                     cboAgeCli.setSelectedItem(null);
                     cboAgeFun.setSelectedItem(null);
                     txtAgeData.setText(null);
+                    txtAgeHora.setText(null);
                     //cboUsuPerfil.setSelectedItem(null);
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
 
     }
     
     private void update() {
-        String sql = "UPDATE ORDEMSERVICO SET SERVICOS_cd_servico=?, CLIENTES_cd_cliente=?, FUNCIONARIOS_cd_funcionario=?, dt_atendimento=? WHERE cd_atendimento=?";
+        String sql = "UPDATE ORDEMSERVICO SET SERVICOS_cd_servico=?, CLIENTES_cd_cliente=?, FUNCIONARIOS_cd_funcionario=?, dt_atendimento=?, hr_atendimento=? WHERE cd_atendimento=?";
         String nm_servico = cboAgeSer.getSelectedItem().toString();
         String nm_cliente = cboAgeCli.getSelectedItem().toString();
         String nm_funcionario = cboAgeFun.getSelectedItem().toString();
@@ -280,7 +306,13 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             LocalDate id = LocalDate.parse(dta, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             java.sql.Date data = java.sql.Date.valueOf(id);
             pst.setDate(4, data);
-            pst.setString(5, txtAgeId.getText());
+            
+            String hora = txtAgeHora.getText();
+            LocalTime id2 = LocalTime.parse(hora, DateTimeFormatter.ofPattern("HH:mm"));
+            java.sql.Time hor = java.sql.Time.valueOf(id2);
+            pst.setTime(5, hor);
+            
+            pst.setString(6, txtAgeId.getText());
 
 
            
@@ -301,6 +333,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                     cboAgeCli.setSelectedItem(null);
                     cboAgeFun.setSelectedItem(null);
                     txtAgeData.setText(null);
+                    txtAgeHora.setText(null);
 
                     
                     //cboUsuPerfil.setSelectedItem(null);
@@ -308,7 +341,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
 
         }
 
@@ -322,11 +355,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
 
 
             if ((cboAgeSer.getSelectedItem().toString().isEmpty()) || (cboAgeCli.getSelectedItem().toString().isEmpty())
-                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty())) {
+                    || (cboAgeFun.getSelectedItem().toString().isEmpty()) || (txtAgeData.getText().isEmpty()) || (txtAgeData.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
-                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse agendamento?", "Atenção", JOptionPane.YES_NO_OPTION);
                 if (confirma == JOptionPane.YES_OPTION) {
                     int apagado = pst.executeUpdate();
                     if (apagado > 0) {
@@ -336,13 +369,14 @@ public class Agendamentos extends javax.swing.JInternalFrame {
                     cboAgeCli.setSelectedItem(null);
                     cboAgeFun.setSelectedItem(null);
                     txtAgeData.setText(null);
+                    txtAgeHora.setText(null);
 
                     }
                 } else {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
 
     }
@@ -354,6 +388,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         cboAgeCli.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 2).toString());
         cboAgeFun.setSelectedItem(tblAgendamento.getModel().getValueAt(setar, 3).toString());
         txtAgeData.setText(tblAgendamento.getModel().getValueAt(setar, 4).toString());
+        txtAgeHora.setText(tblAgendamento.getModel().getValueAt(setar, 5).toString());
         
     }
     
@@ -383,6 +418,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtAgeData = new javax.swing.JFormattedTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtAgeHora = new javax.swing.JFormattedTextField();
+        btnPesquisar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -397,9 +435,9 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 1));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Data:");
+        jLabel7.setText("Hora:");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(60, 390, 70, 30);
+        jLabel7.setBounds(270, 400, 70, 30);
 
         btnAgeCreate.setBackground(java.awt.Color.lightGray);
         btnAgeCreate.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -422,7 +460,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Código:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(50, 260, 110, 30);
+        jLabel5.setBounds(50, 240, 110, 30);
 
         tblAgendamento = new javax.swing.JTable();
         tblAgendamento = new javax.swing.JTable(){
@@ -435,18 +473,18 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         tblAgendamento.setForeground(new java.awt.Color(0, 0, 1));
         tblAgendamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Serviço", "Cliente", "Funcionário", "Data"
+                "Código", "Serviço", "Cliente", "Funcionário", "Data", "Hora"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -468,10 +506,11 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             tblAgendamento.getColumnModel().getColumn(2).setResizable(false);
             tblAgendamento.getColumnModel().getColumn(3).setResizable(false);
             tblAgendamento.getColumnModel().getColumn(4).setResizable(false);
+            tblAgendamento.getColumnModel().getColumn(5).setResizable(false);
         }
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(40, 60, 470, 150);
+        jScrollPane1.setBounds(10, 60, 670, 150);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 1));
@@ -491,7 +530,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtAgeId);
-        txtAgeId.setBounds(160, 260, 40, 30);
+        txtAgeId.setBounds(160, 240, 40, 30);
 
         btnAgeDelete.setBackground(java.awt.Color.lightGray);
         btnAgeDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -529,7 +568,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Cliente:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(60, 330, 75, 30);
+        jLabel6.setBounds(70, 320, 75, 40);
 
         cboAgeFun.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeFun.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -551,7 +590,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(cboAgeCli);
-        cboAgeCli.setBounds(160, 330, 260, 30);
+        cboAgeCli.setBounds(160, 320, 260, 30);
 
         cboAgeSer.setBackground(new java.awt.Color(204, 204, 255));
         cboAgeSer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -567,15 +606,15 @@ public class Agendamentos extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(cboAgeSer);
-        cboAgeSer.setBounds(160, 300, 260, 30);
+        cboAgeSer.setBounds(160, 280, 260, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
         jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 1));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Funcionária:");
+        jLabel9.setText("Funcionário:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(40, 360, 110, 30);
+        jLabel9.setBounds(50, 360, 110, 30);
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -583,9 +622,10 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Serviço:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(40, 300, 110, 30);
+        jLabel10.setBounds(50, 280, 110, 30);
 
         txtAgeData.setBackground(new java.awt.Color(204, 204, 255));
+        txtAgeData.setForeground(new java.awt.Color(0, 0, 1));
         try {
             txtAgeData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
@@ -593,14 +633,54 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         }
         txtAgeData.setText("");
         txtAgeData.setToolTipText("");
+        txtAgeData.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtAgeData.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtAgeData.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtAgeData.setSelectionColor(new java.awt.Color(0, 0, 153));
         txtAgeData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAgeDataActionPerformed(evt);
             }
         });
         getContentPane().add(txtAgeData);
-        txtAgeData.setBounds(160, 390, 260, 30);
+        txtAgeData.setBounds(160, 400, 110, 30);
+
+        jLabel11.setBackground(new java.awt.Color(204, 0, 204));
+        jLabel11.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 1));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Data:");
+        getContentPane().add(jLabel11);
+        jLabel11.setBounds(70, 400, 70, 30);
+
+        txtAgeHora.setBackground(new java.awt.Color(204, 204, 255));
+        txtAgeHora.setForeground(new java.awt.Color(0, 0, 1));
+        try {
+            txtAgeHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtAgeHora.setToolTipText("");
+        txtAgeHora.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtAgeHora.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtAgeHora.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtAgeHora.setSelectionColor(new java.awt.Color(0, 0, 153));
+        txtAgeHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAgeHoraActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtAgeHora);
+        txtAgeHora.setBounds(340, 400, 80, 30);
+
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
+        btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPesquisarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPesquisar);
+        btnPesquisar.setBounds(330, 10, 40, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         jLabel1.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -655,10 +735,6 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cboAgeSerKeyReleased
 
-    private void txtAgeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeDataActionPerformed
-
     private void jLabel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel1ComponentShown
         // TODO add your handling code here:
         txtAgeId.setText(null);
@@ -668,16 +744,30 @@ public class Agendamentos extends javax.swing.JInternalFrame {
         txtAgeData.setText(null);
     }//GEN-LAST:event_jLabel1ComponentShown
 
+    private void txtAgeDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAgeDataActionPerformed
+
+    private void txtAgeHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAgeHoraActionPerformed
+
+    private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
+        read();
+    }//GEN-LAST:event_btnPesquisarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgeCreate;
     private javax.swing.JButton btnAgeDelete;
     private javax.swing.JButton btnAgeUpdate;
+    private javax.swing.JLabel btnPesquisar;
     private javax.swing.JComboBox<String> cboAgeCli;
     private javax.swing.JComboBox<String> cboAgeFun;
     private javax.swing.JComboBox<Object> cboAgeSer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -686,6 +776,7 @@ public class Agendamentos extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAgendamento;
     private javax.swing.JFormattedTextField txtAgeData;
+    private javax.swing.JFormattedTextField txtAgeHora;
     private javax.swing.JTextField txtAgeId;
     // End of variables declaration//GEN-END:variables
 }

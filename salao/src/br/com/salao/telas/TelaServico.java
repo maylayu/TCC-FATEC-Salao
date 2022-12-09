@@ -53,7 +53,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
                 txtCliDtnasc.setText(null);
             }*/
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
     }
 
@@ -85,7 +85,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
 
     }
@@ -119,7 +119,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
 
         }
 
@@ -135,7 +135,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
-                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse serviço?", "Atenção", JOptionPane.YES_NO_OPTION);
                 if (confirma == JOptionPane.YES_OPTION) {
                     int apagado = pst.executeUpdate();
                     if (apagado > 0) {
@@ -151,7 +151,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Não é possível excluir. /n Serviço com um agendamento!");
         }
 
     }
@@ -216,7 +216,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtSerNome);
-        txtSerNome.setBounds(169, 311, 370, 30);
+        txtSerNome.setBounds(169, 311, 190, 30);
 
         btnSerDelete.setBackground(java.awt.Color.lightGray);
         btnSerDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -263,6 +263,11 @@ public class TelaServico extends javax.swing.JInternalFrame {
         txtSerPesquisar.setBounds(96, 50, 390, 40);
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
+        btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPesquisarMouseClicked(evt);
+            }
+        });
         getContentPane().add(btnPesquisar);
         btnPesquisar.setBounds(496, 50, 40, 40);
 
@@ -366,21 +371,25 @@ public class TelaServico extends javax.swing.JInternalFrame {
         btnSerCreate.setBounds(186, 440, 70, 60);
 
         txtSerValor.setBackground(new java.awt.Color(204, 204, 255));
+        txtSerValor.setForeground(new java.awt.Color(0, 0, 1));
         try {
             txtSerValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtSerValor.setText("");
         txtSerValor.setToolTipText("");
         txtSerValor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtSerValor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSerValor.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtSerValor.setSelectionColor(new java.awt.Color(0, 0, 153));
         txtSerValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSerValorActionPerformed(evt);
             }
         });
         getContentPane().add(txtSerValor);
-        txtSerValor.setBounds(170, 350, 370, 30);
+        txtSerValor.setBounds(170, 350, 110, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -427,6 +436,10 @@ public class TelaServico extends javax.swing.JInternalFrame {
     private void txtSerValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerValorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSerValorActionPerformed
+
+    private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
+        read();
+    }//GEN-LAST:event_btnPesquisarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

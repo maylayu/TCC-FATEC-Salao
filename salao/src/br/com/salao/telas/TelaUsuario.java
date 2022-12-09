@@ -87,7 +87,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Usuário já cadastrado!");
         }
 
     }
@@ -130,25 +130,33 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     }
 
     private void delete() {
-        int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
-        if (confirma == JOptionPane.YES_OPTION) {
-            String sql = "DELETE FROM USUARIOS WHERE cd_usuario=?";
-            try {
-                pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtUsuId.getText());
-                int apagado = pst.executeUpdate();
-                if (apagado > 0) {
-                    JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-                    txtUsuId.setText(null);
-                    txtUsuNome.setText(null);
-                    txtUsuLogin.setText(null);
-                    txtUsuSenha.setText(null);
+        
+            
+            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
+            } else {
+                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+                if (confirma == JOptionPane.YES_OPTION) {
+                    String sql = "DELETE FROM USUARIOS WHERE cd_usuario=?";
+                try {
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, txtUsuId.getText());
+                    int apagado = pst.executeUpdate();
+                    if (apagado > 0) {
+                        JOptionPane.showMessageDialog(null, "Excluido com sucesso");
+                        txtUsuId.setText(null);
+                        txtUsuNome.setText(null);
+                        txtUsuLogin.setText(null);
+                        txtUsuSenha.setText(null);
+
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Selecione um usuário para excluir!");
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
             }
         }
+        
     }
 
     /**

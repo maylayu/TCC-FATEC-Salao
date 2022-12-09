@@ -13,6 +13,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.UIManager;
+import java.awt.Color;
 
 /**
  *
@@ -68,7 +69,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usuário ou senha inválido");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão");
         }
         
         
@@ -89,8 +90,11 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         if (conexao != null) {
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/dbok.png")));
+            status.setText("Conectado!");
         } else {
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/dberror.png")));
+            status.setText("Desconectado!");
+            status.setForeground(Color.red);
         }
     }
     
@@ -110,6 +114,7 @@ public class TelaLogin extends javax.swing.JFrame {
         txtSenha = new javax.swing.JPasswordField();
         lblStatus = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -121,14 +126,14 @@ public class TelaLogin extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
-        jLabel1.setText("Usuário");
+        jLabel1.setText("Usuário:");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(70, 90, 56, 23);
+        jLabel1.setBounds(70, 83, 60, 30);
 
         jLabel2.setFont(new java.awt.Font("Corbel Light", 0, 18)); // NOI18N
-        jLabel2.setText("Senha");
+        jLabel2.setText("Senha:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(70, 150, 46, 23);
+        jLabel2.setBounds(70, 143, 70, 30);
         getContentPane().add(txtUsuario);
         txtUsuario.setBounds(160, 80, 134, 30);
 
@@ -156,11 +161,17 @@ public class TelaLogin extends javax.swing.JFrame {
         lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/dberror.png"))); // NOI18N
         lblStatus.setToolTipText("Conectado");
         getContentPane().add(lblStatus);
-        lblStatus.setBounds(330, 190, 48, 48);
+        lblStatus.setBounds(330, 180, 48, 48);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/tesoura.png"))); // NOI18N
         getContentPane().add(jLabel3);
         jLabel3.setBounds(330, 40, 48, 48);
+
+        status.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        status.setForeground(new java.awt.Color(0, 153, 51));
+        status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(status);
+        status.setBounds(297, 230, 120, 20);
 
         jLabel4.setBackground(new java.awt.Color(255, 51, 204));
         jLabel4.setForeground(new java.awt.Color(204, 102, 255));
@@ -234,6 +245,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel status;
     private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

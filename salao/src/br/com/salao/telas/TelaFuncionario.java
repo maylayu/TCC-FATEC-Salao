@@ -66,7 +66,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
                 txtCliDtnasc.setText(null);
             }*/
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
     }
 
@@ -95,7 +95,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
                 //Esse confirma se alguma coisa foi inserida mesmo
                 if (adicionado > 0) {
                     //
-                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
                     //txtCliId.setText(null);
                     txtFunCpf.setText(null);
                     txtFunNome.setText(null);
@@ -106,7 +106,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
         }
 
     }
@@ -147,7 +147,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Sem conexão com internet.");
 
         }
 
@@ -164,7 +164,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
 
             } else {
-                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+                int confirma = JOptionPane.showConfirmDialog(null, "Quer mesmo excluir esse funcionário?", "Atenção", JOptionPane.YES_NO_OPTION);
                 if (confirma == JOptionPane.YES_OPTION) {
                     int apagado = pst.executeUpdate();
                     if (apagado > 0) {
@@ -183,7 +183,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Não é possível excluir./n Funcionário com um agendamento!");
         }
 
     }
@@ -256,7 +256,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunPesquisar);
-        txtFunPesquisar.setBounds(90, 50, 390, 40);
+        txtFunPesquisar.setBounds(120, 50, 390, 40);
 
         tblFuncionarios = new javax.swing.JTable();
         tblFuncionarios = new javax.swing.JTable(){
@@ -292,7 +292,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         }
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(90, 100, 440, 120);
+        jScrollPane1.setBounds(40, 100, 600, 120);
 
         txtFunId.setEditable(false);
         txtFunId.setBackground(new java.awt.Color(204, 204, 255));
@@ -305,7 +305,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunId);
-        txtFunId.setBounds(140, 270, 40, 30);
+        txtFunId.setBounds(100, 290, 40, 30);
 
         txtFunNome.setBackground(new java.awt.Color(204, 204, 255));
         txtFunNome.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -318,7 +318,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunNome);
-        txtFunNome.setBounds(180, 330, 350, 30);
+        txtFunNome.setBounds(100, 330, 230, 30);
 
         btnUsuDelete.setBackground(java.awt.Color.lightGray);
         btnUsuDelete.setFont(new java.awt.Font("Corbel Light", 1, 13)); // NOI18N
@@ -366,8 +366,13 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         btnUsuCreate.setBounds(180, 440, 70, 60);
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/lupinha2.png"))); // NOI18N
+        btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPesquisarMouseClicked(evt);
+            }
+        });
         getContentPane().add(btnPesquisar);
-        btnPesquisar.setBounds(490, 50, 40, 40);
+        btnPesquisar.setBounds(520, 50, 40, 40);
 
         jLabel5.setBackground(new java.awt.Color(204, 0, 204));
         jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -375,7 +380,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("ID:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(60, 270, 100, 30);
+        jLabel5.setBounds(10, 290, 100, 30);
 
         jLabel6.setBackground(new java.awt.Color(204, 0, 204));
         jLabel6.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -383,7 +388,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Nome:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(70, 330, 110, 30);
+        jLabel6.setBounds(10, 330, 110, 30);
 
         jLabel7.setBackground(new java.awt.Color(204, 0, 204));
         jLabel7.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -391,7 +396,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Telefone:");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(80, 360, 110, 30);
+        jLabel7.setBounds(320, 330, 110, 30);
 
         jLabel9.setBackground(new java.awt.Color(204, 0, 204));
         jLabel9.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -399,7 +404,7 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Data de Nascimento:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(70, 390, 230, 30);
+        jLabel9.setBounds(10, 370, 230, 30);
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 204));
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -407,9 +412,10 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("CPF:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(60, 300, 110, 30);
+        jLabel10.setBounds(320, 370, 110, 30);
 
         txtFunDtnasc.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunDtnasc.setForeground(new java.awt.Color(0, 0, 1));
         try {
             txtFunDtnasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
@@ -417,20 +423,22 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         }
         txtFunDtnasc.setText("");
         txtFunDtnasc.setToolTipText("");
+        txtFunDtnasc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunDtnasc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtFunDtnasc.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtFunDtnasc.setSelectionColor(new java.awt.Color(0, 0, 153));
         txtFunDtnasc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFunDtnascActionPerformed(evt);
             }
         });
         getContentPane().add(txtFunDtnasc);
-        txtFunDtnasc.setBounds(280, 390, 250, 30);
+        txtFunDtnasc.setBounds(220, 370, 110, 30);
 
         txtFunTel.setBackground(new java.awt.Color(204, 204, 255));
         txtFunTel.setForeground(new java.awt.Color(0, 0, 1));
         try {
-            txtFunTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ##### - ####")));
+            txtFunTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -444,24 +452,27 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtFunTel);
-        txtFunTel.setBounds(180, 360, 350, 30);
+        txtFunTel.setBounds(420, 330, 150, 30);
 
         txtFunCpf.setBackground(new java.awt.Color(204, 204, 255));
+        txtFunCpf.setForeground(new java.awt.Color(0, 0, 1));
         try {
             txtFunCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtFunCpf.setText("");
         txtFunCpf.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFunCpf.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtFunCpf.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        txtFunCpf.setSelectionColor(new java.awt.Color(0, 0, 153));
         txtFunCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFunCpfActionPerformed(evt);
             }
         });
         getContentPane().add(txtFunCpf);
-        txtFunCpf.setBounds(180, 300, 350, 30);
+        txtFunCpf.setBounds(420, 370, 150, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/salao/icones/backPages.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -517,6 +528,10 @@ public class TelaFuncionario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_txtFunCpfActionPerformed
+
+    private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
+        read();
+    }//GEN-LAST:event_btnPesquisarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

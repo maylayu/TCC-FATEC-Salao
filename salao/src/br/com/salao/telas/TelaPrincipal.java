@@ -147,7 +147,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menRel.setText("Relatório");
 
-        menRelSer.setText("Serviços");
+        menRelSer.setText("Recibo");
         menRelSer.setEnabled(false);
         menRel.add(menRelSer);
 
